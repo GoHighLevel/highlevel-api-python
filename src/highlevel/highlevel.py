@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Callable, Awaitable
+from typing import Any, Dict, Optional, Awaitable
 import asyncio
 import inspect
 import copy
@@ -42,7 +42,7 @@ from .services.voice_ai.voice_ai import VoiceAi
 from .services.workflows.workflows import Workflows
 from .error import GHLError
 from .storage import SessionStorage, MemorySessionStorage, ISessionData
-from .logging import Logger, LogLevel
+from .logging import Logger
 from .webhook import WebhookManager
 from .constants import UserType
 
