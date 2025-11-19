@@ -1,6 +1,5 @@
 # GoHighLevel Python SDK
 
-
 Official Python SDK for the GoHighLevel API. This library provides a convenient way to interact with GoHighLevel's APIs from applications written in Python.
 
 ## Installation
@@ -17,7 +16,7 @@ pip install gohighlevel-api-client
 ```python
 from highlevel import HighLevel
 
-# Or initialize with OAuth credentials
+# Initialize with OAuth credentials
 client = HighLevel(
     client_id="your_client_id",
     client_secret="your_client_secret"
@@ -78,6 +77,42 @@ client = HighLevel(
     client_secret="your_client_secret",
     session_storage=storage
 )
+```
+
+## Webhook Integration
+
+The SDK provides comprehensive webhook support for handling GoHighLevel webhook events, including automatic token management and session storage integration.
+
+### Features
+
+- **Automatic Token Management**: Handles `INSTALL` and `UNINSTALL` webhooks automatically
+- **Token Storage**: Generates and stores access tokens on `INSTALL`, removes them on `UNINSTALL`
+- **Session Management**: Integrates with your chosen session storage (Memory/MongoDB)
+- **Auto Token Refresh**: Automatically refreshes expired tokens during API calls if tokens are stored
+
+### Webhook Handler Setup
+
+```python
+from highlevel import HighLevel
+from highlevel.storage import MemorySessionStorage
+
+# Initialize the SDK client with session storage
+client = HighLevel(
+    client_id="your_client_id",
+    client_secret="your_client_secret",
+    session_storage=MemorySessionStorage()
+)
+
+# Get the webhook middleware
+webhook_middleware = client.webhooks.subscribe()
+
+@app.route('/api/webhooks/ghl', methods=['POST'])
+async def handle_ghl_webhook():
+    """Handle incoming GoHighLevel webhooks"""
+    # Process the webhook using the middleware
+    await webhook_middleware(request)
+    # Add your custom webhook logic here
+    return jsonify({"status": "success"}), 200
 ```
 
 ## Documentation
