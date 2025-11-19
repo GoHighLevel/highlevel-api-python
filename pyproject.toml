@@ -54,11 +54,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/GoHighLevel/gohighlevel-python-sdk"
-Documentation = "https://docs.gohighlevel.com/python"
-Repository = "https://github.com/GoHighLevel/gohighlevel-python-sdk"
-"Bug Tracker" = "https://github.com/GoHighLevel/gohighlevel-python-sdk/issues"
-Changelog = "https://github.com/GoHighLevel/gohighlevel-python-sdk/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/GoHighLevel/highlevel-api-python"
+Documentation = "https://marketplace.gohighlevel.com/docs/"
+Repository = "https://github.com/GoHighLevel/highlevel-api-python"
+"Bug Tracker" = "https://github.com/GoHighLevel/highlevel-api-python/issues"
+Changelog = "https://github.com/GoHighLevel/highlevel-api-python/blob/main/CHANGELOG.md"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
