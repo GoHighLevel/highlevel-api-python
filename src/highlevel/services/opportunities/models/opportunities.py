@@ -1,9 +1,25 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Opportunities Models
 
 from typing import Optional, Any, List, Dict
 from pydantic import BaseModel
+
+class LostReasonResponseSchema(BaseModel):
+    """LostReasonResponseSchema model"""
+    id: Optional[str] = None
+    name: Optional[str] = None
+    locationId: Optional[str] = None
+    updatedAt: Optional[str] = None
+    createdAt: Optional[str] = None
+
+class LostReasonsResponseSchema(BaseModel):
+    """LostReasonsResponseSchema model"""
+    lostReasons: Optional[List[LostReasonResponseSchema]] = None
+    total: Optional[float] = None
 
 class SearchOpportunitiesContactResponseSchema(BaseModel):
     """SearchOpportunitiesContactResponseSchema model"""
@@ -35,14 +51,23 @@ class SearchOpportunitiesResponseSchema(BaseModel):
     indexVersion: Optional[str] = None
     createdAt: Optional[str] = None
     updatedAt: Optional[str] = None
+    forecastExpectedCloseDate: Optional[str] = None
+    forecastOriginalCloseDate: Optional[str] = None
+    forecastSlippageCount: Optional[float] = None
+    forecastDaysSlipped: Optional[float] = None
+    forecastLastSlippedAt: Optional[str] = None
+    forecastProbability: Optional[float] = None
+    effectiveProbability: Optional[float] = None
     contactId: Optional[str] = None
     locationId: Optional[str] = None
-    contact: Optional[SearchOpportunitiesContactResponseSchema] = None
-    notes: Optional[List[str]] = None
-    tasks: Optional[List[str]] = None
-    calendarEvents: Optional[List[str]] = None
+    contact: Optional[Any] = None
+    notes: Optional[List[List[Any]]] = None
+    tasks: Optional[List[List[Any]]] = None
+    calendarEvents: Optional[List[List[Any]]] = None
+    lostReasonId: Optional[str] = None
     customFields: Optional[List[CustomFieldResponseSchema]] = None
     followers: Optional[List[List[Any]]] = None
+    externalObjectId: Optional[str] = None
 
 class SearchMetaResponseSchema(BaseModel):
     """SearchMetaResponseSchema model"""
@@ -57,7 +82,40 @@ class SearchMetaResponseSchema(BaseModel):
 class SearchSuccessfulResponseDto(BaseModel):
     """SearchSuccessfulResponseDto model"""
     opportunities: Optional[List[SearchOpportunitiesResponseSchema]] = None
-    meta: Optional[SearchMetaResponseSchema] = None
+    meta: Optional[Any] = None
+    aggregations: Optional[Dict[str, Any]] = None
+
+class AdditionalDetailsDTO(BaseModel):
+    """AdditionalDetailsDTO model"""
+    notes: bool
+    tasks: bool
+    calendarEvents: bool
+    unReadConversations: bool
+
+class OpportunitySearchBodyDTO(BaseModel):
+    """OpportunitySearchBodyDTO model"""
+    locationId: str
+    query: str
+    limit: float
+    page: float
+    searchAfter: List[str]
+    additionalDetails: Any
+
+class StageAggregationResponseDto(BaseModel):
+    """StageAggregationResponseDto model"""
+    pipelineStageId: str
+    totalCount: float
+    totalValue: float
+    weightedValue: float
+    openValue: float
+    openWeightedValue: float
+    wonValue: float
+
+class PostSearchSuccessfulResponseDto(BaseModel):
+    """PostSearchSuccessfulResponseDto model"""
+    opportunities: Optional[List[SearchOpportunitiesResponseSchema]] = None
+    total: float
+    stageAggregations: Optional[List[StageAggregationResponseDto]] = None
     aggregations: Optional[Dict[str, Any]] = None
 
 class PipelinesResponseSchema(BaseModel):
@@ -68,6 +126,8 @@ class PipelinesResponseSchema(BaseModel):
     showInFunnel: Optional[bool] = None
     showInPieChart: Optional[bool] = None
     locationId: Optional[str] = None
+    useOpportunityProbability: Optional[bool] = None
+    colorRenderMode: Optional[str] = None
 
 class GetPipelinesSuccessfulResponseDto(BaseModel):
     """GetPipelinesSuccessfulResponseDto model"""
@@ -75,36 +135,38 @@ class GetPipelinesSuccessfulResponseDto(BaseModel):
 
 class GetPostOpportunitySuccessfulResponseDto(BaseModel):
     """GetPostOpportunitySuccessfulResponseDto model"""
-    opportunity: Optional[SearchOpportunitiesResponseSchema] = None
+    opportunity: Optional[Any] = None
 
 class DeleteUpdateOpportunitySuccessfulResponseDto(BaseModel):
     """DeleteUpdateOpportunitySuccessfulResponseDto model"""
     succeded: Optional[bool] = None
+    success: Optional[bool] = None
 
 class UpdateStatusDto(BaseModel):
     """UpdateStatusDto model"""
     status: str
+    lostReasonId: Optional[str] = None
 
-class customFieldsInputArraySchema(BaseModel):
-    """customFieldsInputArraySchema model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[List[str]] = None
-
-class customFieldsInputObjectSchema(BaseModel):
-    """customFieldsInputObjectSchema model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[Dict[str, Any]] = None
-
-class customFieldsInputStringSchema(BaseModel):
-    """customFieldsInputStringSchema model"""
+class customFieldsInputStringSchemaV3(BaseModel):
+    """customFieldsInputStringSchemaV3 model"""
     id: Optional[str] = None
     key: Optional[str] = None
-    field_value: Optional[str] = None
+    fieldValue: Optional[str] = None
 
-class CreateDto(BaseModel):
-    """CreateDto model"""
+class customFieldsInputArraySchemaV3(BaseModel):
+    """customFieldsInputArraySchemaV3 model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[List[str]] = None
+
+class customFieldsInputObjectSchemaV3(BaseModel):
+    """customFieldsInputObjectSchemaV3 model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[Dict[str, Any]] = None
+
+class CreateDtoV3(BaseModel):
+    """CreateDtoV3 model"""
     pipelineId: str
     locationId: str
     name: str
@@ -112,29 +174,39 @@ class CreateDto(BaseModel):
     status: str
     contactId: str
     monetaryValue: Optional[float] = None
+    forecastExpectedCloseDate: Optional[str] = None
+    forecastProbability: Optional[float] = None
     assignedTo: Optional[str] = None
     customFields: Optional[List[Any]] = None
 
-class UpdateOpportunityDto(BaseModel):
-    """UpdateOpportunityDto model"""
+class UpdateOpportunityDtoV3(BaseModel):
+    """UpdateOpportunityDtoV3 model"""
     pipelineId: Optional[str] = None
     name: Optional[str] = None
     pipelineStageId: Optional[str] = None
     status: Optional[str] = None
     monetaryValue: Optional[float] = None
+    forecastExpectedCloseDate: Optional[str] = None
+    forecastProbability: Optional[float] = None
     assignedTo: Optional[str] = None
     customFields: Optional[List[Any]] = None
 
 class UpsertOpportunityDto(BaseModel):
     """UpsertOpportunityDto model"""
+    id: Optional[str] = None
     pipelineId: str
     locationId: str
-    contactId: str
+    followers: List[str]
+    isRemoveAllFollowers: bool
+    followersActionType: str
     name: Optional[str] = None
     status: Optional[str] = None
     pipelineStageId: Optional[str] = None
-    monetaryValue: Optional[float] = None
+    monetaryValue: Optional[Dict[str, Any]] = None
+    forecastExpectedCloseDate: Optional[str] = None
+    forecastProbability: Optional[float] = None
     assignedTo: Optional[str] = None
+    lostReasonId: Optional[str] = None
 
 class UpsertOpportunitySuccessfulResponseDto(BaseModel):
     """UpsertOpportunitySuccessfulResponseDto model"""

@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -9,6 +13,10 @@ class EmailIsv:
     """
     EmailIsv Service
     Documentation for Email ISV API
+
+## API Version v3
+
+All APIs available via &#x60;/v3&#x60; route prefix with AIP-compliant responses.
     """
 
     def __init__(self, ghl_instance):
@@ -25,8 +33,8 @@ class EmailIsv:
         Email Verification
         Verify Email
         """
-        param_defs = [{"name": "locationId", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id }, param_defs)
+        param_defs = [{"name": "locationId", "in": "query"}, ]
+        extracted = extract_params({ "location_id": location_id,  }, param_defs)
         requirements = ["Location-Access"]
         
         config: RequestConfig = {
@@ -42,7 +50,10 @@ class EmailIsv:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,

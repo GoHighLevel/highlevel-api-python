@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Oauth Models
@@ -5,22 +8,22 @@ from __future__ import annotations
 from typing import Optional, Any, List, Dict
 from pydantic import BaseModel
 
-class GetAccessCodebodyDto(BaseModel):
-    """GetAccessCodebodyDto model"""
-    client_id: str
-    client_secret: str
-    grant_type: str
+class GetAccessTokenBodyDto(BaseModel):
+    """GetAccessTokenBodyDto model"""
+    clientId: str
+    clientSecret: str
+    grantType: str
     code: Optional[str] = None
-    refresh_token: Optional[str] = None
-    user_type: Optional[str] = None
-    redirect_uri: Optional[str] = None
+    refreshToken: Optional[str] = None
+    userType: Optional[str] = None
+    redirectUri: Optional[str] = None
 
-class GetAccessCodeSuccessfulResponseDto(BaseModel):
-    """GetAccessCodeSuccessfulResponseDto model"""
-    access_token: Optional[str] = None
-    token_type: Optional[str] = None
-    expires_in: Optional[float] = None
-    refresh_token: Optional[str] = None
+class GetAccessTokenSuccessfulResponseDto(BaseModel):
+    """GetAccessTokenSuccessfulResponseDto model"""
+    accessToken: Optional[str] = None
+    tokenType: Optional[str] = None
+    expiresIn: Optional[float] = None
+    refreshToken: Optional[str] = None
     scope: Optional[str] = None
     userType: Optional[str] = None
     locationId: Optional[str] = None
@@ -29,6 +32,8 @@ class GetAccessCodeSuccessfulResponseDto(BaseModel):
     userId: str
     planId: Optional[str] = None
     isBulkInstallation: Optional[bool] = None
+    installToFutureLocations: Optional[bool] = None
+    approveAllLocations: Optional[bool] = None
 
 class GetLocationAccessCodeBodyDto(BaseModel):
     """GetLocationAccessCodeBodyDto model"""
@@ -44,6 +49,22 @@ class GetLocationAccessTokenSuccessfulResponseDto(BaseModel):
     locationId: Optional[str] = None
     planId: Optional[str] = None
     userId: str
+    appId: Optional[str] = None
+    versionId: Optional[str] = None
+    refresh_token: Optional[str] = None
+
+class GetLocationAccessTokenV3SuccessfulResponseDto(BaseModel):
+    """GetLocationAccessTokenV3SuccessfulResponseDto model"""
+    accessToken: Optional[str] = None
+    tokenType: Optional[str] = None
+    expiresIn: Optional[float] = None
+    scope: Optional[str] = None
+    locationId: Optional[str] = None
+    planId: Optional[str] = None
+    userId: str
+    appId: Optional[str] = None
+    versionId: Optional[str] = None
+    refreshToken: Optional[str] = None
 
 class InstalledLocationSchema(BaseModel):
     """InstalledLocationSchema model"""
@@ -51,10 +72,45 @@ class InstalledLocationSchema(BaseModel):
     name: str
     address: str
     isInstalled: Optional[bool] = None
+    versionId: Optional[str] = None
+    installedAt: Optional[str] = None
 
 class GetInstalledLocationsSuccessfulResponseDto(BaseModel):
     """GetInstalledLocationsSuccessfulResponseDto model"""
     locations: Optional[List[InstalledLocationSchema]] = None
     count: Optional[float] = None
     installToFutureLocations: Optional[bool] = None
+
+class V3PaginationMetaDto(BaseModel):
+    """V3PaginationMetaDto model"""
+    totalRecords: Optional[float] = None
+    hasNextPage: bool
+    hasPrevPage: bool
+    nextPageToken: Optional[str] = None
+    prevPageToken: Optional[str] = None
+    currentPageSize: float
+    estimatedTotalRecords: Optional[float] = None
+
+class V3InstalledLocationsListMetadataDto(BaseModel):
+    """V3InstalledLocationsListMetadataDto model"""
+    filterApplied: Optional[Dict[str, Any]] = None
+    sortApplied: Optional[Dict[str, Any]] = None
+
+class GetInstalledLocationsV3SuccessfulResponseDto(BaseModel):
+    """GetInstalledLocationsV3SuccessfulResponseDto model"""
+    items: List[InstalledLocationSchema]
+    pagination: Any
+    metadata: Optional[Any] = None
+    installToFutureLocations: Optional[bool] = None
+
+class AipErrorBodyDto(BaseModel):
+    """AipErrorBodyDto model"""
+    code: str
+    message: str
+    details: Optional[Dict[str, Any]] = None
+    resolution: Optional[str] = None
+
+class AipErrorResponseDto(BaseModel):
+    """AipErrorResponseDto model"""
+    error: Any
 

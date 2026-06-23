@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 from urllib.parse import urlencode
 import httpx
@@ -10,6 +14,10 @@ class Oauth:
     """
     Oauth Service
     Documentation for OAuth 2.0 API
+
+## API Version v3
+
+All APIs available via &#x60;/v3&#x60; route prefix with AIP-compliant responses.
     """
     
     MARKETPLACE_URL = "https://marketplace.gohighlevel.com"
@@ -27,7 +35,7 @@ class Oauth:
             "scope": scope,
             "response_type": "code"
         }
-        return f"{self.MARKETPLACE_URL}/oauth/chooselocation?{urlencode(params)}"
+        return f"{self.MARKETPLACE_URL}/v2/oauth/chooselocation?{urlencode(params)}"
     
     async def refresh_token(
         self,
@@ -54,21 +62,21 @@ class Oauth:
             raise ValueError(f'user_type must be "{UserType.LOCATION}" or "{UserType.COMPANY}"')
         
         return await self.get_access_token({
-            "refresh_token": refresh_token,
-            "client_id": client_id,
-            "client_secret": client_secret,
-            "grant_type": grant_type,
-            "user_type": user_type
+            "refreshToken": refresh_token,
+            "clientId": client_id,
+            "clientSecret": client_secret,
+            "grantType": grant_type,
+            "userType": user_type
         })
 
     async def get_access_token(
         self,
-        request_body: GetAccessCodebodyDto,
+        request_body: GetAccessTokenBodyDto,
         options: Optional[Dict[str, Any]] = None
     ) -> Any:
         """
         Get Access Token
-        Use Access Tokens to access GoHighLevel resources on behalf of an authenticated location/company.
+        Use Access Tokens to access CRM resources on behalf of an authenticated location/company.
         """
         param_defs = []
         extracted = extract_params(None, param_defs)
@@ -96,7 +104,10 @@ class Oauth:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -137,7 +148,7 @@ class Oauth:
         
         config: RequestConfig = {
             "method": "POST",
-            "url": build_url("/oauth/locationToken", extracted["path"]),
+            "url": build_url("/oauth/location-token", extracted["path"]),
             "params": extracted["query"],
             "headers": {
                 
@@ -154,7 +165,10 @@ class Oauth:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -181,27 +195,29 @@ class Oauth:
         self,
         company_id: str,
         app_id: str,
-        skip: Optional[str] = None,
-        limit: Optional[str] = None,
+        page_size: Optional[float] = None,
+        page_token: Optional[str] = None,
         query: Optional[str] = None,
         is_installed: Optional[bool] = None,
+        restrict_to_user_locations: Optional[bool] = None,
         version_id: Optional[str] = None,
         on_trial: Optional[bool] = None,
         plan_id: Optional[str] = None,
+        location_id: Optional[str] = None,
         options: Optional[Dict[str, Any]] = None
     ) -> Any:
         """
         Get Location where app is installed
         This API allows you fetch location where app is installed upon
         """
-        param_defs = [{"name": "skip", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "query", "in": "query"}, {"name": "isInstalled", "in": "query"}, {"name": "companyId", "in": "query"}, {"name": "appId", "in": "query"}, {"name": "versionId", "in": "query"}, {"name": "onTrial", "in": "query"}, {"name": "planId", "in": "query"}, ]
-        extracted = extract_params({ "skip": skip, "limit": limit, "query": query, "is_installed": is_installed, "company_id": company_id, "app_id": app_id, "version_id": version_id, "on_trial": on_trial, "plan_id": plan_id,  }, param_defs)
-        requirements = ["Agency-Access"]
+        param_defs = [{"name": "pageSize", "in": "query"}, {"name": "pageToken", "in": "query"}, {"name": "query", "in": "query"}, {"name": "isInstalled", "in": "query"}, {"name": "restrictToUserLocations", "in": "query"}, {"name": "companyId", "in": "query"}, {"name": "appId", "in": "query"}, {"name": "versionId", "in": "query"}, {"name": "onTrial", "in": "query"}, {"name": "planId", "in": "query"}, {"name": "locationId", "in": "query"}, ]
+        extracted = extract_params({ "page_size": page_size, "page_token": page_token, "query": query, "is_installed": is_installed, "restrict_to_user_locations": restrict_to_user_locations, "company_id": company_id, "app_id": app_id, "version_id": version_id, "on_trial": on_trial, "plan_id": plan_id, "location_id": location_id,  }, param_defs)
+        requirements = ["Agency-Access-Only"]
         
         
         config: RequestConfig = {
             "method": "GET",
-            "url": build_url("/oauth/installedLocations", extracted["path"]),
+            "url": build_url("/oauth/installed-locations", extracted["path"]),
             "params": extracted["query"],
             "headers": {
                 
@@ -216,7 +232,10 @@ class Oauth:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,

@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -23,28 +27,11 @@ class CustomFields:
         """
         Get Custom Field / Folder By Id
         &lt;div&gt;
-                  &lt;p&gt; Get Custom Field / Folder By Id.&lt;/p&gt; 
-                  &lt;div&gt;
-                    &lt;span style&#x3D; &quot;display: inline-block;
-                                width: 25px; height: 25px;
-                                background-color: yellow;
-                                color: black;
-                                font-weight: bold;
-                                font-size: 24px;
-                                text-align: center;
-                                line-height: 22px;
-                                border: 2px solid black;
-                                border-radius: 10%;
-                                margin-right: 10px;&quot;&gt;
-                                !
-                      &lt;/span&gt;
-                      &lt;span&gt;
-                        &lt;strong&gt;
-                        Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-                        &lt;/strong&gt;
-                      &lt;/span&gt;
-                  &lt;/div&gt;
-                &lt;/div&gt;
+&lt;p&gt; Get Custom Field / Folder By Id.&lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = [{"name": "id", "in": "path"}]
         extracted = extract_params({ "id": id }, param_defs)
@@ -63,7 +50,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -117,28 +107,11 @@ class CustomFields:
         """
         Update Custom Field By Id
         &lt;div&gt;
-    &lt;p&gt; Update Custom Field By Id &lt;/p&gt; 
-    &lt;div&gt;
-      &lt;span style&#x3D; &quot;display: inline-block;
-                  width: 25px; height: 25px;
-                  background-color: yellow;
-                  color: black;
-                  font-weight: bold;
-                  font-size: 24px;
-                  text-align: center;
-                  line-height: 22px;
-                  border: 2px solid black;
-                  border-radius: 10%;
-                  margin-right: 10px;&quot;&gt;
-                  !
-        &lt;/span&gt;
-        &lt;span&gt;
-          &lt;strong&gt;
-          Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-          &lt;/strong&gt;
-        &lt;/span&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+ &lt;p&gt; Update Custom Field By Id &lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = [{"name": "id", "in": "path"}]
         extracted = extract_params({ "id": id }, param_defs)
@@ -157,7 +130,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -211,28 +187,11 @@ class CustomFields:
         """
         Delete Custom Field By Id
         &lt;div&gt;
-    &lt;p&gt; Delete Custom Field By Id &lt;/p&gt; 
-    &lt;div&gt;
-      &lt;span style&#x3D; &quot;display: inline-block;
-                  width: 25px; height: 25px;
-                  background-color: yellow;
-                  color: black;
-                  font-weight: bold;
-                  font-size: 24px;
-                  text-align: center;
-                  line-height: 22px;
-                  border: 2px solid black;
-                  border-radius: 10%;
-                  margin-right: 10px;&quot;&gt;
-                  !
-        &lt;/span&gt;
-        &lt;span&gt;
-          &lt;strong&gt;
-          Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-          &lt;/strong&gt;
-        &lt;/span&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+ &lt;p&gt; Delete Custom Field By Id &lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = [{"name": "id", "in": "path"}]
         extracted = extract_params({ "id": id }, param_defs)
@@ -251,7 +210,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -305,28 +267,11 @@ class CustomFields:
         """
         Get Custom Fields By Object Key
         &lt;div&gt;
-                  &lt;p&gt; Get Custom Fields By Object Key&lt;/p&gt; 
-                  &lt;div&gt;
-                    &lt;span style&#x3D; &quot;display: inline-block;
-                                width: 25px; height: 25px;
-                                background-color: yellow;
-                                color: black;
-                                font-weight: bold;
-                                font-size: 24px;
-                                text-align: center;
-                                line-height: 22px;
-                                border: 2px solid black;
-                                border-radius: 10%;
-                                margin-right: 10px;&quot;&gt;
-                                !
-                      &lt;/span&gt;
-                      &lt;span&gt;
-                        &lt;strong&gt;
-                        Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-                        &lt;/strong&gt;
-                      &lt;/span&gt;
-                  &lt;/div&gt;
-                &lt;/div&gt;
+ &lt;p&gt; Get Custom Fields By Object Key &lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = [{"name": "objectKey", "in": "path"}, {"name": "locationId", "in": "query"}]
         extracted = extract_params({ "object_key": object_key, "location_id": location_id }, param_defs)
@@ -345,7 +290,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -398,28 +346,11 @@ class CustomFields:
         """
         Create Custom Field Folder
         &lt;div&gt;
-    &lt;p&gt; Create Custom Field Folder &lt;/p&gt; 
-    &lt;div&gt;
-      &lt;span style&#x3D; &quot;display: inline-block;
-                  width: 25px; height: 25px;
-                  background-color: yellow;
-                  color: black;
-                  font-weight: bold;
-                  font-size: 24px;
-                  text-align: center;
-                  line-height: 22px;
-                  border: 2px solid black;
-                  border-radius: 10%;
-                  margin-right: 10px;&quot;&gt;
-                  !
-        &lt;/span&gt;
-        &lt;span&gt;
-          &lt;strong&gt;
-          Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-          &lt;/strong&gt;
-        &lt;/span&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+ &lt;p&gt; Create Custom Field Folder &lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = []
         extracted = extract_params(None, param_defs)
@@ -438,7 +369,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -493,28 +427,11 @@ class CustomFields:
         """
         Update Custom Field Folder Name
         &lt;div&gt;
-    &lt;p&gt; Create Custom Field Folder &lt;/p&gt; 
-    &lt;div&gt;
-      &lt;span style&#x3D; &quot;display: inline-block;
-                  width: 25px; height: 25px;
-                  background-color: yellow;
-                  color: black;
-                  font-weight: bold;
-                  font-size: 24px;
-                  text-align: center;
-                  line-height: 22px;
-                  border: 2px solid black;
-                  border-radius: 10%;
-                  margin-right: 10px;&quot;&gt;
-                  !
-        &lt;/span&gt;
-        &lt;span&gt;
-          &lt;strong&gt;
-          Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-          &lt;/strong&gt;
-        &lt;/span&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+ &lt;p&gt; Create Custom Field Folder &lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = [{"name": "id", "in": "path"}]
         extracted = extract_params({ "id": id }, param_defs)
@@ -533,7 +450,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -588,28 +508,11 @@ class CustomFields:
         """
         Delete Custom Field Folder
         &lt;div&gt;
-    &lt;p&gt; Create Custom Field Folder &lt;/p&gt; 
-    &lt;div&gt;
-      &lt;span style&#x3D; &quot;display: inline-block;
-                  width: 25px; height: 25px;
-                  background-color: yellow;
-                  color: black;
-                  font-weight: bold;
-                  font-size: 24px;
-                  text-align: center;
-                  line-height: 22px;
-                  border: 2px solid black;
-                  border-radius: 10%;
-                  margin-right: 10px;&quot;&gt;
-                  !
-        &lt;/span&gt;
-        &lt;span&gt;
-          &lt;strong&gt;
-          Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-          &lt;/strong&gt;
-        &lt;/span&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+&lt;p&gt; Create Custom Field Folder &lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = [{"name": "id", "in": "path"}, {"name": "locationId", "in": "query"}]
         extracted = extract_params({ "id": id, "location_id": location_id }, param_defs)
@@ -628,7 +531,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -681,28 +587,11 @@ class CustomFields:
         """
         Create Custom Field
         &lt;div&gt;
-                  &lt;p&gt; Create Custom Field &lt;/p&gt; 
-                  &lt;div&gt;
-                    &lt;span style&#x3D; &quot;display: inline-block;
-                                width: 25px; height: 25px;
-                                background-color: yellow;
-                                color: black;
-                                font-weight: bold;
-                                font-size: 24px;
-                                text-align: center;
-                                line-height: 22px;
-                                border: 2px solid black;
-                                border-radius: 10%;
-                                margin-right: 10px;&quot;&gt;
-                                !
-                      &lt;/span&gt;
-                      &lt;span&gt;
-                        &lt;strong&gt;
-                        Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
-                        &lt;/strong&gt;
-                      &lt;/span&gt;
-                  &lt;/div&gt;
-                &lt;/div&gt;
+&lt;p&gt; Create Custom Field &lt;/p&gt; 
+ &lt;/div&gt; 
+ :::info
+ Only supports Custom Objects and Company (Business) today. Will be extended to other Standard Objects in the future.
+ :::
         """
         param_defs = []
         extracted = extract_params(None, param_defs)
@@ -721,7 +610,10 @@ class CustomFields:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,

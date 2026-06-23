@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Users Models
@@ -62,11 +65,12 @@ class UserSchema(BaseModel):
     email: Optional[str] = None
     phone: Optional[str] = None
     extension: Optional[str] = None
-    permissions: Optional[PermissionsDto] = None
+    permissions: Optional[Any] = None
     scopes: Optional[str] = None
-    roles: Optional[RoleSchema] = None
+    roles: Optional[Any] = None
     deleted: Optional[bool] = None
     lcPhone: Optional[Dict[str, Any]] = None
+    platformLanguage: Optional[str] = None
 
 class SearchUserSuccessfulResponseDto(BaseModel):
     """SearchUserSuccessfulResponseDto model"""
@@ -76,15 +80,11 @@ class SearchUserSuccessfulResponseDto(BaseModel):
 class FilterByEmailDto(BaseModel):
     """FilterByEmailDto model"""
     companyId: str
-    emails: List[str]
+    emails: str
     deleted: Optional[bool] = None
     skip: Optional[str] = None
     limit: Optional[str] = None
     projection: Optional[str] = None
-
-class LocationSuccessfulResponseDto(BaseModel):
-    """LocationSuccessfulResponseDto model"""
-    users: Optional[List[UserSchema]] = None
 
 class UserSuccessfulResponseDto(BaseModel):
     """UserSuccessfulResponseDto model"""
@@ -95,46 +95,50 @@ class UserSuccessfulResponseDto(BaseModel):
     email: Optional[str] = None
     phone: Optional[str] = None
     extension: Optional[str] = None
-    permissions: Optional[PermissionsDto] = None
+    permissions: Optional[Any] = None
     scopes: Optional[str] = None
-    roles: Optional[RoleSchema] = None
+    roles: Optional[Any] = None
     lcPhone: Optional[Dict[str, Any]] = None
+    platformLanguage: Optional[str] = None
 
 class CreateUserDto(BaseModel):
     """CreateUserDto model"""
     companyId: str
-    firstName: str
-    lastName: str
     email: str
     password: str
     phone: Optional[str] = None
     type: str
     role: str
     locationIds: List[str]
-    permissions: Optional[PermissionsDto] = None
+    permissions: Optional[Any] = None
     scopes: Optional[List[str]] = None
     scopesAssignedToOnly: Optional[List[str]] = None
     profilePhoto: Optional[str] = None
+    twilioPhone: Optional[Dict[str, Any]] = None
+    platformLanguage: Optional[str] = None
+    firstName: str
+    lastName: str
 
 class UpdateUserDto(BaseModel):
     """UpdateUserDto model"""
     firstName: Optional[str] = None
     lastName: Optional[str] = None
     email: Optional[str] = None
-    emailChangeOTP: Optional[str] = None
     password: Optional[str] = None
     phone: Optional[str] = None
     type: Optional[str] = None
     role: Optional[str] = None
     companyId: Optional[str] = None
     locationIds: Optional[List[str]] = None
-    permissions: Optional[PermissionsDto] = None
+    permissions: Optional[Any] = None
     scopes: Optional[List[str]] = None
     scopesAssignedToOnly: Optional[List[str]] = None
     profilePhoto: Optional[str] = None
+    twilioPhone: Optional[Dict[str, Any]] = None
+    platformLanguage: Optional[str] = None
 
-class DeleteUserSuccessfulResponseDto(BaseModel):
-    """DeleteUserSuccessfulResponseDto model"""
-    succeded: Optional[bool] = None
+class DeleteUserSuccessfulResponseV3Dto(BaseModel):
+    """DeleteUserSuccessfulResponseV3Dto model"""
+    succeeded: Optional[bool] = None
     message: Optional[str] = None
 

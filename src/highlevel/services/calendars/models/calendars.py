@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Calendars Models
@@ -53,6 +56,275 @@ class GroupUpdateDTO(BaseModel):
     description: str
     slug: str
 
+class ServiceResourceDTO(BaseModel):
+    """ServiceResourceDTO model"""
+    id: str
+
+class ServiceAddOnResponseDTO(BaseModel):
+    """ServiceAddOnResponseDTO model"""
+    id: str
+    quantity: Optional[float] = None
+
+class ServiceDTO(BaseModel):
+    """ServiceDTO model"""
+    id: str
+    serviceCategoryId: str
+    serviceStaffId: str
+    serviceStartTime: str
+    serviceEndTime: str
+    serviceResources: Optional[List[ServiceResourceDTO]] = None
+    serviceAddOns: Optional[List[ServiceAddOnResponseDTO]] = None
+
+class ServiceBookingResponseDTO(BaseModel):
+    """ServiceBookingResponseDTO model"""
+    bookingId: str
+    locationId: str
+    contactId: str
+    serviceLocationId: str
+    title: str
+    startTime: str
+    endTime: str
+    services: List[ServiceDTO]
+    timezone: str
+    status: str
+    deleted: bool
+    dateAdded: str
+    dateUpdated: str
+    createdBy: Any
+    meetingLocation: Optional[str] = None
+
+class ServiceBookingsListResponseDTO(BaseModel):
+    """ServiceBookingsListResponseDTO model"""
+    bookings: List[ServiceBookingResponseDTO]
+
+class ServiceBookingQueryDTO(BaseModel):
+    """ServiceBookingQueryDTO model"""
+    overrideAvailability: Optional[bool] = None
+    skipSchedulingNotice: Optional[bool] = None
+
+class ServiceAddOnDTO(BaseModel):
+    """ServiceAddOnDTO model"""
+    id: str
+    quantity: Optional[float] = None
+    duration: Optional[float] = None
+
+class CreateBookingServiceDTO(BaseModel):
+    """CreateBookingServiceDTO model"""
+    id: str
+    staffId: Optional[str] = None
+    position: Optional[float] = None
+    addOns: Optional[List[ServiceAddOnDTO]] = None
+
+class CreatePublicServiceBookingDTO(BaseModel):
+    """CreatePublicServiceBookingDTO model"""
+    locationId: str
+    contactId: str
+    startTime: str
+    endTime: str
+    timezone: str
+    services: List[CreateBookingServiceDTO]
+    serviceLocationId: Optional[str] = None
+    meetingLocation: Optional[str] = None
+    title: Optional[str] = None
+    status: Optional[str] = None
+
+class CreateOrUpdateServiceBookingResponseDTO(BaseModel):
+    """CreateOrUpdateServiceBookingResponseDTO model"""
+    bookingId: str
+    locationId: str
+    contactId: str
+    serviceLocationId: str
+    title: str
+    startTime: str
+    endTime: str
+    services: List[ServiceDTO]
+    timezone: str
+    status: str
+    deleted: bool
+    dateAdded: str
+    dateUpdated: str
+    createdBy: Any
+    meetingLocation: Optional[str] = None
+    messages: Optional[List[List[Any]]] = None
+
+class UpdateServiceBookingDTO(BaseModel):
+    """UpdateServiceBookingDTO model"""
+    serviceLocationId: Optional[str] = None
+    meetingLocation: Optional[str] = None
+    title: Optional[str] = None
+    status: Optional[str] = None
+    startTime: Optional[str] = None
+    endTime: Optional[str] = None
+    timezone: Optional[str] = None
+    services: Optional[List[CreateBookingServiceDTO]] = None
+
+class DeleteServiceBookingResponseDTO(BaseModel):
+    """DeleteServiceBookingResponseDTO model"""
+    success: bool
+    message: str
+
+class PaymentDTO(BaseModel):
+    """PaymentDTO model"""
+    amount: Optional[float] = None
+    deposit: Optional[float] = None
+    depositType: Optional[str] = None
+
+class ServiceVariationDTO(BaseModel):
+    """ServiceVariationDTO model"""
+    id: str
+    name: str
+    serviceDuration: Optional[float] = None
+    serviceDurationUnit: Optional[str] = None
+    payment: Optional[Any] = None
+    preBuffer: Optional[float] = None
+    preBufferUnit: Optional[str] = None
+    postBuffer: Optional[float] = None
+    postBufferUnit: Optional[str] = None
+
+class StaffDTO(BaseModel):
+    """StaffDTO model"""
+    id: str
+
+class ServiceResponseDTO(BaseModel):
+    """ServiceResponseDTO model"""
+    id: str
+    locationId: str
+    name: str
+    description: Optional[str] = None
+    slug: Optional[str] = None
+    eventColor: Optional[str] = None
+    coverImage: Optional[str] = None
+    serviceCategoryId: Optional[str] = None
+    payment: Optional[Any] = None
+    serviceDuration: Optional[float] = None
+    serviceDurationUnit: Optional[str] = None
+    preBuffer: Optional[float] = None
+    preBufferUnit: Optional[str] = None
+    postBuffer: Optional[float] = None
+    postBufferUnit: Optional[str] = None
+    isPrivate: Optional[bool] = None
+    formId: Optional[str] = None
+    variations: Optional[List[ServiceVariationDTO]] = None
+    staff: Optional[List[StaffDTO]] = None
+
+class ServicesListResponseDTO(BaseModel):
+    """ServicesListResponseDTO model"""
+    services: List[ServiceResponseDTO]
+
+class ServiceResponseWrapperDTO(BaseModel):
+    """ServiceResponseWrapperDTO model"""
+    service: Any
+
+class CreateServiceVariationDTO(BaseModel):
+    """CreateServiceVariationDTO model"""
+    serviceDuration: Optional[float] = None
+    serviceDurationUnit: Optional[str] = None
+    preBuffer: Optional[float] = None
+    preBufferUnit: Optional[str] = None
+    postBuffer: Optional[float] = None
+    postBufferUnit: Optional[str] = None
+    payment: Optional[Any] = None
+    name: str
+
+class CreateServiceDTO(BaseModel):
+    """CreateServiceDTO model"""
+    locationId: str
+    name: str
+    slug: str
+    staff: List[StaffDTO]
+    description: Optional[str] = None
+    eventColor: Optional[str] = None
+    coverImage: Optional[str] = None
+    serviceCategoryId: Optional[str] = None
+    payment: Optional[Any] = None
+    serviceDuration: Optional[float] = None
+    serviceDurationUnit: Optional[str] = None
+    preBuffer: Optional[float] = None
+    preBufferUnit: Optional[str] = None
+    postBuffer: Optional[float] = None
+    postBufferUnit: Optional[str] = None
+    isPrivate: Optional[bool] = None
+    formId: Optional[str] = None
+    variations: Optional[List[CreateServiceVariationDTO]] = None
+
+class UpdateServiceVariationDTO(BaseModel):
+    """UpdateServiceVariationDTO model"""
+    serviceDuration: Optional[float] = None
+    serviceDurationUnit: Optional[str] = None
+    preBuffer: Optional[float] = None
+    preBufferUnit: Optional[str] = None
+    postBuffer: Optional[float] = None
+    postBufferUnit: Optional[str] = None
+    payment: Optional[Any] = None
+    id: Optional[str] = None
+    name: Optional[str] = None
+
+class UpdateServiceDTO(BaseModel):
+    """UpdateServiceDTO model"""
+    name: Optional[str] = None
+    description: Optional[str] = None
+    slug: Optional[str] = None
+    eventColor: Optional[str] = None
+    coverImage: Optional[str] = None
+    serviceCategoryId: Optional[str] = None
+    payment: Optional[Any] = None
+    serviceDuration: Optional[float] = None
+    serviceDurationUnit: Optional[str] = None
+    preBuffer: Optional[float] = None
+    preBufferUnit: Optional[str] = None
+    postBuffer: Optional[float] = None
+    postBufferUnit: Optional[str] = None
+    isPrivate: Optional[bool] = None
+    formId: Optional[str] = None
+    staff: Optional[List[StaffDTO]] = None
+    variations: Optional[List[UpdateServiceVariationDTO]] = None
+
+class DeleteServiceResponseDTO(BaseModel):
+    """DeleteServiceResponseDTO model"""
+    success: bool
+    message: Optional[str] = None
+
+class ServiceLocationResponseDTO(BaseModel):
+    """ServiceLocationResponseDTO model"""
+    id: str
+    locationId: str
+    name: str
+    slug: str
+    isActive: Optional[bool] = None
+    isPrivate: Optional[bool] = None
+    coverImage: Optional[str] = None
+    locationType: Optional[str] = None
+    address: Optional[str] = None
+    phone: Optional[str] = None
+
+class ServiceLocationListResponseDTO(BaseModel):
+    """ServiceLocationListResponseDTO model"""
+    serviceLocations: List[ServiceLocationResponseDTO]
+
+class CreateServiceLocationDTO(BaseModel):
+    """CreateServiceLocationDTO model"""
+    locationId: str
+    name: str
+    slug: str
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    coverImage: Optional[str] = None
+    locationType: Optional[str] = None
+
+class UpdateServiceLocationDTO(BaseModel):
+    """UpdateServiceLocationDTO model"""
+    name: Optional[str] = None
+    slug: Optional[str] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    coverImage: Optional[str] = None
+    locationType: Optional[str] = None
+
+class DeleteServiceLocationResponseDTO(BaseModel):
+    """DeleteServiceLocationResponseDTO model"""
+    success: bool
+    message: Optional[str] = None
+
 class AppointmentCreateSchema(BaseModel):
     """AppointmentCreateSchema model"""
     title: Optional[str] = None
@@ -87,6 +359,8 @@ class AppointmentSchemaResponse(BaseModel):
     address: Optional[str] = None
     isRecurring: Optional[bool] = None
     rrule: Optional[str] = None
+    dateAdded: str
+    dateUpdated: str
     id: str
 
 class AppointmentEditSchema(BaseModel):
@@ -128,6 +402,7 @@ class CalendarEventDTO(BaseModel):
     description: Optional[str] = None
     isRecurring: Optional[bool] = None
     rrule: Optional[str] = None
+    deleted: Optional[bool] = None
     startTime: Dict[str, Any]
     endTime: Dict[str, Any]
     dateAdded: Dict[str, Any]
@@ -585,4 +860,74 @@ class UpdateCalendarNotificationsDTO(BaseModel):
 class CalendarNotificationDeleteResponseDTO(BaseModel):
     """CalendarNotificationDeleteResponseDTO model"""
     message: str
+
+class ScheduleIntervalDTO(BaseModel):
+    """ScheduleIntervalDTO model"""
+    from_: str
+    to: str
+
+class ScheduleRuleDTO(BaseModel):
+    """ScheduleRuleDTO model"""
+    type: str
+    intervals: List[ScheduleIntervalDTO]
+    date: Optional[str] = None
+    day: Optional[str] = None
+
+class ScheduleObjectResponseDTO(BaseModel):
+    """ScheduleObjectResponseDTO model"""
+    id: str
+    name: str
+    locationId: str
+    rules: List[ScheduleRuleDTO]
+    timezone: str
+    dateAdded: str
+    dateUpdated: str
+    userId: str
+    calendarIds: Optional[List[str]] = None
+    deleted: bool
+
+class GetAllSchedulesResponseDTO(BaseModel):
+    """GetAllSchedulesResponseDTO model"""
+    schedules: List[ScheduleObjectResponseDTO]
+
+class ScheduleResponseDTO(BaseModel):
+    """ScheduleResponseDTO model"""
+    schedule: Any
+
+class CreateScheduleDTO(BaseModel):
+    """CreateScheduleDTO model"""
+    rules: Optional[List[ScheduleRuleDTO]] = None
+    timezone: str
+    locationId: str
+    name: str
+    userId: str
+    calendarIds: Optional[List[str]] = None
+
+class UpdateScheduleDTO(BaseModel):
+    """UpdateScheduleDTO model"""
+    name: Optional[str] = None
+    rules: Optional[List[ScheduleRuleDTO]] = None
+    timezone: Optional[str] = None
+
+class CreateEventCalendarScheduleDTO(BaseModel):
+    """CreateEventCalendarScheduleDTO model"""
+    rules: List[ScheduleRuleDTO]
+    timezone: str
+
+class EventCalendarScheduleResponseDTO(BaseModel):
+    """EventCalendarScheduleResponseDTO model"""
+    timezone: str
+    rules: List[ScheduleRuleDTO]
+    calendarId: str
+    dateAdded: Optional[str] = None
+    dateUpdated: Optional[str] = None
+
+class EventCalendarScheduleWrapperDTO(BaseModel):
+    """EventCalendarScheduleWrapperDTO model"""
+    schedule: Any
+
+class UpdateEventCalendarScheduleDTO(BaseModel):
+    """UpdateEventCalendarScheduleDTO model"""
+    rules: Optional[List[ScheduleRuleDTO]] = None
+    timezone: Optional[str] = None
 

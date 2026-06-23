@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -41,7 +45,10 @@ class Marketplace:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -119,7 +126,10 @@ class Marketplace:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -190,7 +200,10 @@ class Marketplace:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -261,7 +274,10 @@ class Marketplace:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -331,7 +347,10 @@ class Marketplace:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -403,7 +422,10 @@ class Marketplace:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -459,13 +481,89 @@ class Marketplace:
         Get Installer Details
         Fetches installer details for the authenticated user. This endpoint returns information about the company, location, user, and installation details associated with the current OAuth token.
         """
-        param_defs = [{"name": "appId", "in": "path"}]
-        extracted = extract_params({ "app_id": app_id }, param_defs)
-        requirements = []
+        param_defs = [{"name": "appId", "in": "path"}, ]
+        extracted = extract_params({ "app_id": app_id,  }, param_defs)
+        requirements = ["Location-Access-Only","Agency-Access-Only"]
         
         config: RequestConfig = {
             "method": "GET",
             "url": build_url("/marketplace/app/{appId}/installations", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            "__preferred_token_type": options.get("preferred_token_type") if options else None,
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {},
+            config.get("__preferred_token_type")
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            setattr(request, "__preferred_token_type", config.get("__preferred_token_type"))
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def get_rebilling_config_for_app(
+        self,
+        app_id: str,
+        location_id: str,
+        options: Optional[Dict[str, Any]] = None
+    ) -> GetRebillingConfigResponseDTO:
+        """
+        Get rebilling config for an app subscription and usage plans
+        Get rebilling config for an app subscription and usage plans for the authenticated sub-account. This endpoint returns the subscription and usage plans for an app.
+        """
+        param_defs = [{"name": "appId", "in": "path"}, {"name": "locationId", "in": "path"}, ]
+        extracted = extract_params({ "app_id": app_id, "location_id": location_id,  }, param_defs)
+        requirements = ["Location-Access-Only"]
+        
+        config: RequestConfig = {
+            "method": "GET",
+            "url": build_url("/marketplace/app/{appId}/rebilling-config/location/{locationId}", extracted["path"]),
             "params": extracted["query"],
             "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
             
@@ -476,7 +574,10 @@ class Marketplace:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -495,6 +596,81 @@ class Marketplace:
                 "params": config["params"],
                 "headers": config["headers"],
             }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def migrate_connection(
+        self,
+        request_body: MigrateConnectionDto,
+        options: Optional[Dict[str, Any]] = None
+    ) -> MigrateConnectionResponseDto:
+        """
+        Migrate external authentication connection
+        Migrates an external authentication connection credentials (basic or oauth2) for a specific app and location. This endpoint validates the app configuration, stores credentials safely in CRM&#x27;s native encrypted storage. With this the lifecycle of the token is managed by CRM.
+        """
+        param_defs = []
+        extracted = extract_params(None, param_defs)
+        requirements = ["Location-Access","Location-Access-Only"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/marketplace/external-auth/migration", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
 
             request = self.client.build_request(**request_kwargs)
             setattr(request, "__security_requirements", requirements)

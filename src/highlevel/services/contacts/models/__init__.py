@@ -1,12 +1,6 @@
 """Contacts Models"""
 
 from .contacts import SearchBodyV2DTO
-from .contacts import CustomFieldSchema
-from .contacts import DndSettingSchema
-from .contacts import DndSettingsSchema
-from .contacts import ContactOpportunity
-from .contacts import Contact
-from .contacts import SearchContactSuccessResponseDto
 from .contacts import TaskSchema
 from .contacts import TasksListSuccessfulResponseDto
 from .contacts import TaskByIsSuccessfulResponseDto
@@ -23,14 +17,13 @@ from .contacts import GetNoteSchema
 from .contacts import GetNotesListSuccessfulResponseDto
 from .contacts import NotesDTO
 from .contacts import GetCreateUpdateNoteSuccessfulResponseDto
+from .contacts import UpdateNoteDTO
 from .contacts import DeleteNoteSuccessfulResponseDto
 from .contacts import UpdateTagsDTO
 from .contacts import UpdateTagsResponseDTO
 from .contacts import ContactsBusinessUpdate
 from .contacts import ContactsBulkUpateResponse
-from .contacts import AttributionSource
-from .contacts import GetContectByIdSchema
-from .contacts import ContactsByIdSuccessfulResponseDto
+from .contacts import DeleteContactsSuccessfulResponseDto
 from .contacts import customFieldsInputArraySchema
 from .contacts import customFieldsInputObjectSchema
 from .contacts import customFieldsInputStringSchema
@@ -43,16 +36,20 @@ from .contacts import MonetoryField
 from .contacts import CheckboxField
 from .contacts import MultiSelectField
 from .contacts import FileField
+from .contacts import CustomFieldSchema
+from .contacts import AttributionSource
+from .contacts import DndSettingSchema
+from .contacts import DndSettingsSchemaV3
+from .contacts import GetContactByIdSchemaV3
+from .contacts import ContactsByIdSuccessfulResponseDtoV3
 from .contacts import InboundDndSettingSchema
 from .contacts import InboundDndSettingsSchema
-from .contacts import CreateContactDto
-from .contacts import CreateContactSchema
-from .contacts import CreateContactsSuccessfulResponseDto
-from .contacts import UpdateContactDto
-from .contacts import UpdateContactsSuccessfulResponseDto
-from .contacts import UpsertContactDto
-from .contacts import UpsertContactsSuccessfulResponseDto
-from .contacts import DeleteContactsSuccessfulResponseDto
+from .contacts import CreateContactDtoV3
+from .contacts import CreateContactsSuccessfulResponseDtoV3
+from .contacts import UpdateContactDtoV3
+from .contacts import UpdateContactsSuccessfulResponseDtoV3
+from .contacts import UpsertContactDtoV3
+from .contacts import UpsertContactsSuccessfulResponseDtoV3
 from .contacts import ContactsSearchSchema
 from .contacts import ContactsMetaSchema
 from .contacts import ContactsSearchSuccessfulResponseDto
@@ -63,4 +60,4 @@ from .contacts import AddContactToCampaignDto
 from .contacts import CreateDeleteCantactsCampaignsSuccessfulResponseDto
 from .contacts import CreateWorkflowDto
 from .contacts import ContactsWorkflowSuccessfulResponseDto
-__all__ = ["SearchBodyV2DTO", "CustomFieldSchema", "DndSettingSchema", "DndSettingsSchema", "ContactOpportunity", "Contact", "SearchContactSuccessResponseDto", "TaskSchema", "TasksListSuccessfulResponseDto", "TaskByIsSuccessfulResponseDto", "CreateTaskParams", "UpdateTaskBody", "UpdateTaskStatusParams", "DeleteTaskSuccessfulResponseDto", "GetEventSchema", "GetEventsSuccessfulResponseDto", "TagsDTO", "CreateAddTagSuccessfulResponseDto", "CreateDeleteTagSuccessfulResponseDto", "GetNoteSchema", "GetNotesListSuccessfulResponseDto", "NotesDTO", "GetCreateUpdateNoteSuccessfulResponseDto", "DeleteNoteSuccessfulResponseDto", "UpdateTagsDTO", "UpdateTagsResponseDTO", "ContactsBusinessUpdate", "ContactsBulkUpateResponse", "AttributionSource", "GetContectByIdSchema", "ContactsByIdSuccessfulResponseDto", "customFieldsInputArraySchema", "customFieldsInputObjectSchema", "customFieldsInputStringSchema", "TextField", "LargeTextField", "SingleSelectField", "RadioField", "NumericField", "MonetoryField", "CheckboxField", "MultiSelectField", "FileField", "InboundDndSettingSchema", "InboundDndSettingsSchema", "CreateContactDto", "CreateContactSchema", "CreateContactsSuccessfulResponseDto", "UpdateContactDto", "UpdateContactsSuccessfulResponseDto", "UpsertContactDto", "UpsertContactsSuccessfulResponseDto", "DeleteContactsSuccessfulResponseDto", "ContactsSearchSchema", "ContactsMetaSchema", "ContactsSearchSuccessfulResponseDto", "FollowersDTO", "CreateAddFollowersSuccessfulResponseDto", "DeleteFollowersSuccessfulResponseDto", "AddContactToCampaignDto", "CreateDeleteCantactsCampaignsSuccessfulResponseDto", "CreateWorkflowDto", "ContactsWorkflowSuccessfulResponseDto"]
+__all__ = ["SearchBodyV2DTO", "TaskSchema", "TasksListSuccessfulResponseDto", "TaskByIsSuccessfulResponseDto", "CreateTaskParams", "UpdateTaskBody", "UpdateTaskStatusParams", "DeleteTaskSuccessfulResponseDto", "GetEventSchema", "GetEventsSuccessfulResponseDto", "TagsDTO", "CreateAddTagSuccessfulResponseDto", "CreateDeleteTagSuccessfulResponseDto", "GetNoteSchema", "GetNotesListSuccessfulResponseDto", "NotesDTO", "GetCreateUpdateNoteSuccessfulResponseDto", "UpdateNoteDTO", "DeleteNoteSuccessfulResponseDto", "UpdateTagsDTO", "UpdateTagsResponseDTO", "ContactsBusinessUpdate", "ContactsBulkUpateResponse", "DeleteContactsSuccessfulResponseDto", "customFieldsInputArraySchema", "customFieldsInputObjectSchema", "customFieldsInputStringSchema", "TextField", "LargeTextField", "SingleSelectField", "RadioField", "NumericField", "MonetoryField", "CheckboxField", "MultiSelectField", "FileField", "CustomFieldSchema", "AttributionSource", "DndSettingSchema", "DndSettingsSchemaV3", "GetContactByIdSchemaV3", "ContactsByIdSuccessfulResponseDtoV3", "InboundDndSettingSchema", "InboundDndSettingsSchema", "CreateContactDtoV3", "CreateContactsSuccessfulResponseDtoV3", "UpdateContactDtoV3", "UpdateContactsSuccessfulResponseDtoV3", "UpsertContactDtoV3", "UpsertContactsSuccessfulResponseDtoV3", "ContactsSearchSchema", "ContactsMetaSchema", "ContactsSearchSuccessfulResponseDto", "FollowersDTO", "CreateAddFollowersSuccessfulResponseDto", "DeleteFollowersSuccessfulResponseDto", "AddContactToCampaignDto", "CreateDeleteCantactsCampaignsSuccessfulResponseDto", "CreateWorkflowDto", "ContactsWorkflowSuccessfulResponseDto"]

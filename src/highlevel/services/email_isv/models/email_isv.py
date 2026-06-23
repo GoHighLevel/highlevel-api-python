@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # EmailIsv Models
@@ -5,23 +8,23 @@ from __future__ import annotations
 from typing import Optional, Any, List, Dict
 from pydantic import BaseModel
 
+class LeadConnectorRecommendationDto(BaseModel):
+    """LeadConnectorRecommendationDto model"""
+    isEmailValid: Optional[bool] = None
+
 class EmailNotVerifiedResponseDto(BaseModel):
     """EmailNotVerifiedResponseDto model"""
     verified: bool
     message: Optional[str] = None
     address: Optional[str] = None
 
-class LeadConnectorRecomandationDto(BaseModel):
-    """LeadConnectorRecomandationDto model"""
-    isEmailValid: Optional[bool] = None
-
-class EmailVerifiedResponseDto(BaseModel):
-    """EmailVerifiedResponseDto model"""
+class EmailVerifiedV3ResponseDto(BaseModel):
+    """EmailVerifiedV3ResponseDto model"""
     reason: Optional[List[str]] = None
     result: str
     risk: str
     address: str
-    leadconnectorRecomendation: Any
+    leadConnectorRecommendation: Optional[Any] = None
 
 class VerificationBodyDto(BaseModel):
     """VerificationBodyDto model"""

@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Payments Models
@@ -71,6 +74,7 @@ class OrderResponseSchema(BaseModel):
     fulfillmentStatus: Optional[str] = None
     onetimeProducts: Optional[float] = None
     recurringProducts: Optional[float] = None
+    createdBy: Optional[str] = None
 
 class ListOrdersResponseDto(BaseModel):
     """ListOrdersResponseDto model"""
@@ -115,6 +119,7 @@ class GetOrderResponseSchema(BaseModel):
     traceId: Optional[str] = None
     automaticTaxesCalculated: Optional[bool] = None
     taxCalculationProvider: Optional[Dict[str, Any]] = None
+    createdBy: Optional[str] = None
 
 class CardDto(BaseModel):
     """CardDto model"""
@@ -171,37 +176,21 @@ class ProductVariantDto(BaseModel):
     name: str
     options: List[ProductVariantOptionDto]
 
-class ProductMediaDto(BaseModel):
-    """ProductMediaDto model"""
-    id: str
-    title: Optional[str] = None
-    url: str
-    type: str
-    isFeatured: Optional[bool] = None
-    priceIds: Optional[List[List[Any]]] = None
-
 class ProductLabelDto(BaseModel):
     """ProductLabelDto model"""
     title: str
     startDate: Optional[str] = None
     endDate: Optional[str] = None
 
-class ProductSEODto(BaseModel):
-    """ProductSEODto model"""
-    title: Optional[str] = None
-    description: Optional[str] = None
-
 class DefaultProductResponseDto(BaseModel):
     """DefaultProductResponseDto model"""
     _id: str
     description: Optional[str] = None
     variants: Optional[List[ProductVariantDto]] = None
-    medias: Optional[List[ProductMediaDto]] = None
     locationId: str
     name: str
     productType: str
     availableInStore: Optional[bool] = None
-    userId: Optional[str] = None
     createdAt: str
     updatedAt: str
     statementDescriptor: Optional[str] = None
@@ -210,10 +199,8 @@ class DefaultProductResponseDto(BaseModel):
     isTaxesEnabled: Optional[bool] = None
     taxes: Optional[List[str]] = None
     automaticTaxCategoryId: Optional[str] = None
-    isLabelEnabled: Optional[bool] = None
     label: Optional[Any] = None
     slug: Optional[str] = None
-    seo: Optional[Any] = None
 
 class MembershipOfferDto(BaseModel):
     """MembershipOfferDto model"""
@@ -305,6 +292,7 @@ class TxnResponseSchema(BaseModel):
     amountRefunded: Optional[float] = None
     paymentMethod: Optional[Dict[str, Any]] = None
     fulfilledAt: str
+    createdBy: Optional[str] = None
 
 class ListTxnsResponseDto(BaseModel):
     """ListTxnsResponseDto model"""
@@ -342,6 +330,7 @@ class GetTxnResponseSchema(BaseModel):
     qboResponse: Optional[Dict[str, Any]] = None
     traceId: Optional[str] = None
     mergedFromContactId: Optional[str] = None
+    createdBy: Optional[str] = None
 
 class SubscriptionResponseSchema(BaseModel):
     """SubscriptionResponseSchema model"""
@@ -368,6 +357,7 @@ class SubscriptionResponseSchema(BaseModel):
     ipAddress: Optional[str] = None
     createdAt: str
     updatedAt: str
+    createdBy: Optional[str] = None
 
 class ListSubscriptionResponseDto(BaseModel):
     """ListSubscriptionResponseDto model"""
@@ -423,6 +413,7 @@ class GetSubscriptionResponseSchema(BaseModel):
     canceledAt: Optional[str] = None
     canceledBy: Optional[str] = None
     traceId: Optional[str] = None
+    createdBy: Optional[str] = None
 
 class ApplyToFuturePaymentsConfigDto(BaseModel):
     """ApplyToFuturePaymentsConfigDto model"""
@@ -446,6 +437,9 @@ class CouponDto(BaseModel):
     endDate: Optional[str] = None
     applyToFuturePayments: bool
     applyToFuturePaymentsConfig: Any
+    productIds: Optional[List[str]] = None
+    priceIds: Optional[List[str]] = None
+    variantIds: Optional[List[str]] = None
     userId: Optional[str] = None
     createdAt: str
     updatedAt: str
@@ -474,6 +468,8 @@ class CreateCouponParams(BaseModel):
     endDate: Optional[str] = None
     usageLimit: Optional[float] = None
     productIds: Optional[List[str]] = None
+    priceIds: Optional[List[str]] = None
+    variantIds: Optional[List[str]] = None
     applyToFuturePayments: Optional[bool] = None
     applyToFuturePaymentsConfig: Optional[Any] = None
     limitPerCustomer: Optional[bool] = None
@@ -511,6 +507,8 @@ class UpdateCouponParams(BaseModel):
     endDate: Optional[str] = None
     usageLimit: Optional[float] = None
     productIds: Optional[List[str]] = None
+    priceIds: Optional[List[str]] = None
+    variantIds: Optional[List[str]] = None
     applyToFuturePayments: Optional[bool] = None
     applyToFuturePaymentsConfig: Optional[Any] = None
     limitPerCustomer: Optional[bool] = None

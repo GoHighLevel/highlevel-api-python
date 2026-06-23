@@ -8,6 +8,7 @@ import json
 import os
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PublicKey
 from cryptography.hazmat.backends import default_backend
 import base64
 import inspect
@@ -104,35 +105,40 @@ class WebhookManager:
                     return
 
                 # Initialize request attributes for signature validation status
-                if hasattr(request, "state"):
-                    request.state.skipped_signature_verification = False
-                    request.state.is_signature_valid = False
-                else:
-                    setattr(request, "skipped_signature_verification", False)
-                    setattr(request, "is_signature_valid", False)
+                self._set_request_flag(request, "skipped_signature_verification", False)
+                self._set_request_flag(request, "is_signature_valid", False)
+                self._set_request_flag(request, "signature_type", None)
 
+                # Two signature schemes are supported:
+                #   - Ed25519 via the `x-ghl-signature` header — preferred when present
+                #   - RSA-SHA256 via the `x-wh-signature` header — legacy/fallback
+                # If both are supplied, Ed25519 takes precedence
+                ghl_signature = self._get_header_value(headers_obj, "x-ghl-signature")
                 signature = self._get_header_value(headers_obj, "x-wh-signature")
+                ed25519_public_key = os.environ.get("WEBHOOK_SIGNATURE_PUBLIC_KEY")
                 public_key = os.environ.get("WEBHOOK_PUBLIC_KEY")
 
-                if signature and public_key:
-                    payload = self._ensure_payload_text(raw_body_bytes, body)
+                payload = self._ensure_payload_text(raw_body_bytes, body)
 
-                    is_valid = self.verify_signature(payload, signature, public_key)
-
-                    if hasattr(request, "state"):
-                        request.state.is_signature_valid = is_valid
-                    else:
-                        setattr(request, "is_signature_valid", is_valid)
-
+                if ghl_signature and ed25519_public_key:
+                    is_valid = self.verify_ed25519_signature(payload, ghl_signature, ed25519_public_key)
+                    self._set_request_flag(request, "signature_type", "ed25519")
+                    self._set_request_flag(request, "is_signature_valid", is_valid)
                     if not is_valid:
-                        self.logger.warn("Invalid webhook signature")
+                        self.logger.warn("Invalid webhook signature from x-ghl-signature")
+                        return
+                elif signature and public_key:
+                    is_valid = self.verify_signature(payload, signature, public_key)
+                    self._set_request_flag(request, "signature_type", "rsa")
+                    self._set_request_flag(request, "is_signature_valid", is_valid)
+                    if not is_valid:
+                        self.logger.warn("Invalid webhook signature from x-wh-signature")
                         return
                 else:
-                    self.logger.warn("Skipping signature verification - missing signature or public key")
-                    if hasattr(request, "state"):
-                        request.state.skipped_signature_verification = True
-                    else:
-                        setattr(request, "skipped_signature_verification", True)
+                    self.logger.warn(
+                        "Skipping signature verification - no supported webhook signature header found or missing public key"
+                    )
+                    self._set_request_flag(request, "skipped_signature_verification", True)
                     return
 
                 request_body = InstallWebhookRequest(body)
@@ -279,6 +285,13 @@ class WebhookManager:
             return raw_body
         return json.dumps(body or {}, separators=(",", ":"))
 
+    def _set_request_flag(self, request: Any, name: str, value: Any) -> None:
+        """Set a flag on request.state (if present) or directly on the request object."""
+        if hasattr(request, "state"):
+            setattr(request.state, name, value)
+        else:
+            setattr(request, name, value)
+
     def verify_signature(
         self,
         payload: str,
@@ -323,7 +336,88 @@ class WebhookManager:
         except Exception as error:
             self.logger.error(f"Error verifying webhook signature: {error}")
             return False
-    
+
+    def verify_ed25519_signature(
+        self,
+        payload: str,
+        signature: str,
+        public_key: str
+    ) -> bool:
+        """
+        Verify a webhook signature using an Ed25519 public key.
+
+        Args:
+            payload: The raw request body
+            signature: The base64-encoded signature from the `x-ghl-signature` header
+            public_key: The Ed25519 public key (PEM-encoded SPKI, or raw 32-byte / hex / base64)
+
+        Returns:
+            True if the signature is valid, False otherwise
+        """
+        try:
+            self.logger.debug("Verifying webhook Ed25519 signature")
+
+            signature_bytes = base64.b64decode(signature)
+            if len(signature_bytes) != 64:
+                self.logger.warn("Ed25519 signature is not a valid base64-encoded 64-byte value")
+                return False
+
+            public_key_obj = self._load_ed25519_public_key(public_key)
+            if public_key_obj is None:
+                self.logger.warn("Ed25519 public key could not be parsed")
+                return False
+
+            try:
+                public_key_obj.verify(signature_bytes, payload.encode())
+                return True
+            except Exception:
+                return False
+        except Exception as error:
+            self.logger.error(f"Error verifying webhook Ed25519 signature: {error}")
+            return False
+
+    def _load_ed25519_public_key(self, public_key: str) -> Optional[Ed25519PublicKey]:
+        """
+        Normalise an Ed25519 public key into an Ed25519PublicKey instance.
+        Accepts PEM-encoded SPKI, raw 32 bytes, 64 hex chars, or base64.
+
+        Args:
+            public_key: Public key in one of the supported formats
+
+        Returns:
+            An Ed25519PublicKey, or None if the input could not be parsed
+        """
+        key = (public_key or "").strip()
+        if not key:
+            return None
+
+        try:
+            if "-----BEGIN" in key:
+                loaded = serialization.load_pem_public_key(key.encode(), backend=default_backend())
+                return loaded if isinstance(loaded, Ed25519PublicKey) else None
+
+            # 64 hex chars -> 32 raw bytes
+            if len(key) == 64 and all(c in "0123456789abcdefABCDEF" for c in key):
+                return Ed25519PublicKey.from_public_bytes(bytes.fromhex(key))
+
+            # base64 -> raw bytes
+            try:
+                decoded = base64.b64decode(key, validate=True)
+                if len(decoded) == 32:
+                    return Ed25519PublicKey.from_public_bytes(decoded)
+            except Exception:
+                pass
+
+            # raw 32-byte string
+            raw = key.encode()
+            if len(raw) == 32:
+                return Ed25519PublicKey.from_public_bytes(raw)
+
+            return None
+        except Exception as error:
+            self.logger.error(f"Error parsing Ed25519 public key: {error}")
+            return None
+
     async def _generate_location_access_token(
         self,
         company_id: str,

@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -41,7 +45,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -116,7 +123,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -164,15 +174,16 @@ class Payments:
     async def list_orders(
         self,
         alt_id: str,
-        alt_type: str,
         location_id: Optional[str] = None,
         status: Optional[str] = None,
+        payment_status: Optional[str] = None,
         payment_mode: Optional[str] = None,
         start_at: Optional[str] = None,
         end_at: Optional[str] = None,
         search: Optional[str] = None,
         contact_id: Optional[str] = None,
         funnel_product_ids: Optional[str] = None,
+        source_id: Optional[str] = None,
         limit: Optional[float] = None,
         offset: Optional[float] = None,
         options: Optional[Dict[str, Any]] = None
@@ -181,8 +192,8 @@ class Payments:
         List Orders
         The &quot;List Orders&quot; API allows to retrieve a paginated list of orders. Customize your results by filtering orders based on name, alt type, order status, payment mode, date range, type of source, contact, funnel products or paginate through the list using the provided query parameters. This endpoint provides a straightforward way to explore and retrieve order information.
         """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "altId", "in": "query"}, {"name": "altType", "in": "query"}, {"name": "status", "in": "query"}, {"name": "paymentMode", "in": "query"}, {"name": "startAt", "in": "query"}, {"name": "endAt", "in": "query"}, {"name": "search", "in": "query"}, {"name": "contactId", "in": "query"}, {"name": "funnelProductIds", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "offset", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "alt_id": alt_id, "alt_type": alt_type, "status": status, "payment_mode": payment_mode, "start_at": start_at, "end_at": end_at, "search": search, "contact_id": contact_id, "funnel_product_ids": funnel_product_ids, "limit": limit, "offset": offset }, param_defs)
+        param_defs = [{"name": "locationId", "in": "query"}, {"name": "altId", "in": "query"}, {"name": "status", "in": "query"}, {"name": "paymentStatus", "in": "query"}, {"name": "paymentMode", "in": "query"}, {"name": "startAt", "in": "query"}, {"name": "endAt", "in": "query"}, {"name": "search", "in": "query"}, {"name": "contactId", "in": "query"}, {"name": "funnelProductIds", "in": "query"}, {"name": "sourceId", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "offset", "in": "query"}]
+        extracted = extract_params({ "location_id": location_id, "alt_id": alt_id, "status": status, "payment_status": payment_status, "payment_mode": payment_mode, "start_at": start_at, "end_at": end_at, "search": search, "contact_id": contact_id, "funnel_product_ids": funnel_product_ids, "source_id": source_id, "limit": limit, "offset": offset }, param_defs)
         requirements = ["Location-Access"]
         
         config: RequestConfig = {
@@ -198,7 +209,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -247,7 +261,6 @@ class Payments:
         self,
         order_id: str,
         alt_id: str,
-        alt_type: str,
         location_id: Optional[str] = None,
         options: Optional[Dict[str, Any]] = None
     ) -> GetOrderResponseSchema:
@@ -255,8 +268,8 @@ class Payments:
         Get Order by ID
         The &quot;Get Order by ID&quot; API allows to retrieve information for a specific order using its unique identifier. Use this endpoint to fetch details for a single order based on the provided order ID.
         """
-        param_defs = [{"name": "orderId", "in": "path"}, {"name": "locationId", "in": "query"}, {"name": "altId", "in": "query"}, {"name": "altType", "in": "query"}]
-        extracted = extract_params({ "order_id": order_id, "location_id": location_id, "alt_id": alt_id, "alt_type": alt_type }, param_defs)
+        param_defs = [{"name": "orderId", "in": "path"}, {"name": "locationId", "in": "query"}, {"name": "altId", "in": "query"}]
+        extracted = extract_params({ "order_id": order_id, "location_id": location_id, "alt_id": alt_id }, param_defs)
         requirements = ["Location-Access"]
         
         config: RequestConfig = {
@@ -272,7 +285,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -344,7 +360,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -364,78 +383,6 @@ class Payments:
                 "headers": config["headers"],
             }
             request_kwargs["json"] = config.get("data")
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def post_migrate_order_payment_status(
-        self,
-        alt_id: str,
-        location_id: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None
-    ) -> Any:
-        """
-        migration Endpoint for Order Payment Status
-        Process to migrate all the older orders and based on the statuses introduce the payment statuses as well
-        """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "altId", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "alt_id": alt_id }, param_defs)
-        requirements = ["Location-Access"]
-        
-        config: RequestConfig = {
-            "method": "POST",
-            "url": build_url("/payments/orders/migrate-order-ps", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
 
             request = self.client.build_request(**request_kwargs)
             setattr(request, "__security_requirements", requirements)
@@ -489,7 +436,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -563,7 +513,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -636,7 +589,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -720,7 +676,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -794,7 +753,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -853,14 +815,15 @@ class Payments:
         id: Optional[str] = None,
         limit: Optional[float] = None,
         offset: Optional[float] = None,
+        get_payments_collected_count: Optional[bool] = None,
         options: Optional[Dict[str, Any]] = None
     ) -> ListSubscriptionResponseDto:
         """
         List Subscriptions
         The &quot;List Subscriptions&quot; API allows to retrieve a paginated list of subscriptions. Customize your results by filtering subscriptions based on name, alt type, subscription status, payment mode, date range, type of source, contact, subscription id, entity id, contact or paginate through the list using the provided query parameters. This endpoint provides a straightforward way to explore and retrieve subscription information.
         """
-        param_defs = [{"name": "altId", "in": "query"}, {"name": "altType", "in": "query"}, {"name": "entityId", "in": "query"}, {"name": "paymentMode", "in": "query"}, {"name": "startAt", "in": "query"}, {"name": "endAt", "in": "query"}, {"name": "entitySourceType", "in": "query"}, {"name": "search", "in": "query"}, {"name": "contactId", "in": "query"}, {"name": "id", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "offset", "in": "query"}]
-        extracted = extract_params({ "alt_id": alt_id, "alt_type": alt_type, "entity_id": entity_id, "payment_mode": payment_mode, "start_at": start_at, "end_at": end_at, "entity_source_type": entity_source_type, "search": search, "contact_id": contact_id, "id": id, "limit": limit, "offset": offset }, param_defs)
+        param_defs = [{"name": "altId", "in": "query"}, {"name": "altType", "in": "query"}, {"name": "entityId", "in": "query"}, {"name": "paymentMode", "in": "query"}, {"name": "startAt", "in": "query"}, {"name": "endAt", "in": "query"}, {"name": "entitySourceType", "in": "query"}, {"name": "search", "in": "query"}, {"name": "contactId", "in": "query"}, {"name": "id", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "offset", "in": "query"}, {"name": "getPaymentsCollectedCount", "in": "query"}]
+        extracted = extract_params({ "alt_id": alt_id, "alt_type": alt_type, "entity_id": entity_id, "payment_mode": payment_mode, "start_at": start_at, "end_at": end_at, "entity_source_type": entity_source_type, "search": search, "contact_id": contact_id, "id": id, "limit": limit, "offset": offset, "get_payments_collected_count": get_payments_collected_count }, param_defs)
         requirements = ["Location-Access"]
         
         config: RequestConfig = {
@@ -876,7 +839,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -949,7 +915,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1025,7 +994,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1096,7 +1068,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1168,7 +1143,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1240,7 +1218,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1315,7 +1296,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1387,7 +1371,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1459,7 +1446,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1530,7 +1520,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1602,7 +1595,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1675,7 +1671,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1747,7 +1746,10 @@ class Payments:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,

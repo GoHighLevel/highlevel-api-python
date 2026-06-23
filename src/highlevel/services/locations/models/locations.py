@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Locations Models
@@ -382,4 +385,32 @@ class DeleteRecurringTaskResponseDTO(BaseModel):
     """DeleteRecurringTaskResponseDTO model"""
     id: str
     success: bool
+
+class UpdatePermissionsDto(BaseModel):
+    """UpdatePermissionsDto model"""
+    permissions: List[str]
+
+class PermissionsResponseDto(BaseModel):
+    """PermissionsResponseDto model"""
+    permissions: List[str]
+
+class ConversationProviderSchema(BaseModel):
+    """ConversationProviderSchema model"""
+    _id: str
+    name: str
+    type: str
+    default: bool
+
+class ConversationChannelEntrySchema(BaseModel):
+    """ConversationChannelEntrySchema model"""
+    conversationProvider: ConversationProviderSchema
+
+class ConversationChannelSchema(BaseModel):
+    """ConversationChannelSchema model"""
+    SMS: Optional[List[ConversationChannelEntrySchema]] = None
+    Email: Optional[List[ConversationChannelEntrySchema]] = None
+
+class GetConversationChannelListSuccessfulResponseDto(BaseModel):
+    """GetConversationChannelListSuccessfulResponseDto model"""
+    conversationChannel: ConversationChannelSchema
 
