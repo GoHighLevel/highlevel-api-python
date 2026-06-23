@@ -43,16 +43,18 @@ async def oauth_example():
     )
     print(f"Visit: {auth_url}")
     
-    # Step 2: Exchange code for tokens (after user authorization)
+    # Step 2: Exchange code for tokens (after user authorization).
+    # The request body uses camelCase keys.
     token_data = await client.oauth.get_access_token({
-        "client_id": "your_client_id",
-        "client_secret": "your_client_secret",
-        "grant_type": "authorization_code",
+        "clientId": "your_client_id",
+        "clientSecret": "your_client_secret",
+        "grantType": "authorization_code",
         "code": "authorization_code_from_callback",
-        "redirect_uri": "https://your-app.com/callback"
     })
-    
-    # Tokens are automatically stored in session storage
+
+    # token_data is the raw token response, with camelCase keys:
+    # accessToken, refreshToken, expiresIn, userType, and locationId or companyId.
+    # Persist it via your session storage to authenticate later requests.
     print("OAuth flow completed successfully!")
 
 asyncio.run(oauth_example())
@@ -113,6 +115,26 @@ async def handle_ghl_webhook():
     await webhook_middleware(request)
     # Add your custom webhook logic here
     return jsonify({"status": "success"}), 200
+```
+
+### Webhook Signature Verification
+
+Incoming webhooks are verified before they are processed. Configure the public key
+(available in your app settings) as an environment variable. If no supported signature
+header and matching key are present, the middleware logs a warning and skips the
+webhook **without processing it** — so configuring a key is required for webhooks to work.
+
+| Scheme | Header | Environment variable | Notes |
+|--------|--------|----------------------|-------|
+| Ed25519 | `x-ghl-signature` | `WEBHOOK_SIGNATURE_PUBLIC_KEY` | Preferred. Used when present. |
+| RSA-SHA256 | `x-wh-signature` | `WEBHOOK_PUBLIC_KEY` | Legacy fallback. |
+
+```bash
+# CLIENT_ID is also required — the webhook's appId is matched against it before processing.
+export CLIENT_ID="your_client_id"
+export WEBHOOK_SIGNATURE_PUBLIC_KEY="your_ed25519_public_key"
+# Optional legacy fallback:
+export WEBHOOK_PUBLIC_KEY="your_rsa_public_key"
 ```
 
 ## Documentation
