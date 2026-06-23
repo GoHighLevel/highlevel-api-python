@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -5,256 +9,15 @@ from ...utils.request_utils import build_url, extract_params, get_auth_token, Re
 from ...error import GHLError
 
 
-class SocialMediaPosting:
+class SocialPlanner:
     """
-    SocialMediaPosting Service
+    SocialPlanner Service
     Documentation for Social Media Posting API
     """
 
     def __init__(self, ghl_instance):
         self.ghl_instance = ghl_instance
         self.client = ghl_instance.http_client
-
-    async def start_google_oauth(
-        self,
-        location_id: str,
-        user_id: str,
-        page: Optional[str] = None,
-        reconnect: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None
-    ) -> Any:
-        """
-        Starts OAuth For Google Account
-        Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to Google login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function. 
-  ### Sample code to listen to event data:
-    window.addEventListener(&#x27;message&#x27;, 
-      function(e) {
-        if (e.data &amp;&amp; e.data.page &#x3D;&#x3D;&#x3D; &#x27;social_media_posting&#x27;) {
-        const { actionType, page, platform, placement, accountId, reconnectAccounts } &#x3D; e.data
-        }
-      },
-    false)
-  ### Event Data Response:
-    {
-      actionType: string,            Ex: &quot;close&quot; 
-      page: string,                  Ex: &quot;social-media-posting&quot; 
-      platform: string,              Ex: &quot;google&quot; 
-      placement: string,             Ex: &quot;placement&quot; 
-      accountId: string,             Ex: &quot;658a9b6833b91e0ecb8f3958&quot; 
-      reconnectAccounts: string[]]   Ex: [&quot;658a9b6833b91e0ecb834acd&quot;, &quot;efd2daa9b6833b91e0ecb8f3511&quot;] 
-    }
-  ### The accountId retrieved from above data can be used to fetch Google account details using below API -
-  API: &#x27;/social-media-posting/oauth/google/accounts/:accountId&#x27; 
-
-  Method: GET
-        """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/google/start", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def get_google_locations(
-        self,
-        location_id: str,
-        account_id: str,
-        options: Optional[Dict[str, Any]] = None
-    ) -> GetGoogleLocationResponseDTO:
-        """
-        Get google business locations
-        Get google business locations
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/{locationId}/google/locations/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def set_google_locations(
-        self,
-        location_id: str,
-        account_id: str,
-        request_body: AttachGMBLocationDTO,
-        options: Optional[Dict[str, Any]] = None
-    ) -> SocialMediaGmbAccountResponseDTO:
-        """
-        Set google business locations
-        Set google business locations
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "POST",
-            "url": build_url("/social-media-posting/oauth/{locationId}/google/locations/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            "data": request_body,
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            request_body
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-            request_kwargs["json"] = config.get("data")
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
 
     async def get_posts(
         self,
@@ -283,7 +46,10 @@ class SocialMediaPosting:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -360,7 +126,10 @@ The content and media limitations, as well as platform rate limiters correspondi
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -433,7 +202,10 @@ The content and media limitations, as well as platform rate limiters correspondi
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -482,7 +254,7 @@ The content and media limitations, as well as platform rate limiters correspondi
         self,
         location_id: str,
         id: str,
-        request_body: PostCreateRequest,
+        request_body: CreatePostDTO,
         options: Optional[Dict[str, Any]] = None
     ) -> UpdatePostSuccessfulResponseDTO:
         """
@@ -510,7 +282,10 @@ The content and media limitations, as well as platform rate limiters correspondi
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -583,7 +358,10 @@ The content and media limitations, as well as platform rate limiters correspondi
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -642,12 +420,12 @@ Note:
                   
 1.The maximum number of posts that can be deleted in a single request is &#x27;50&#x27;.
                   
-2.However, It will only get deleted in Highlevel database but still
+2.However, It will only get deleted in CRM database but still
                    it is recommended to be cautious of this operation.
         """
         param_defs = []
         extracted = extract_params(None, param_defs)
-        requirements = []
+        requirements = ["bearer"]
         
         config: RequestConfig = {
             "method": "POST",
@@ -662,7 +440,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -734,7 +515,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -808,7 +592,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -827,1003 +614,6 @@ Note:
                 "params": config["params"],
                 "headers": config["headers"],
             }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def start_facebook_oauth(
-        self,
-        location_id: str,
-        user_id: str,
-        page: Optional[str] = None,
-        reconnect: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None
-    ) -> Any:
-        """
-        Starts OAuth For Facebook Account
-        Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to Facebook login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function. 
-  ### Sample code to listen to event data:
-    window.addEventListener(&#x27;message&#x27;, 
-      function(e) {
-        if (e.data &amp;&amp; e.data.page &#x3D;&#x3D;&#x3D; &#x27;social_media_posting&#x27;) {
-        const { actionType, page, platform, placement, accountId, reconnectAccounts } &#x3D; e.data
-        }
-      },
-    false)
-  ### Event Data Response:
-    {
-      actionType: string,            Ex: &quot;close&quot; 
-      page: string,                  Ex: &quot;social-media-posting&quot; 
-      platform: string,              Ex: &quot;facebook&quot; 
-      placement: string,             Ex: &quot;placement&quot; 
-      accountId: string,             Ex: &quot;658a9b6833b91e0ecb8f3958&quot; 
-      reconnectAccounts: string[]]   Ex: [&quot;658a9b6833b91e0ecb834acd&quot;, &quot;efd2daa9b6833b91e0ecb8f3511&quot;] 
-    }
-  ### The accountId retrieved from above data can be used to fetch Facebook account details using below API -
-  API: &#x27;/social-media-posting/oauth/facebook/accounts/:accountId&#x27; 
-
-  Method: GET
-        """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/facebook/start", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def get_facebook_page_group(
-        self,
-        location_id: str,
-        account_id: str,
-        options: Optional[Dict[str, Any]] = None
-    ) -> GetFacebookAccountsResponseDTO:
-        """
-        Get facebook pages
-        Get facebook pages
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/{locationId}/facebook/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def attach_facebook_page_group(
-        self,
-        location_id: str,
-        account_id: str,
-        request_body: AttachFBAccountDTO,
-        options: Optional[Dict[str, Any]] = None
-    ) -> SocialMediaFBAccountResponseDTO:
-        """
-        Attach facebook pages
-        Attach facebook pages
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "POST",
-            "url": build_url("/social-media-posting/oauth/{locationId}/facebook/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            "data": request_body,
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            request_body
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-            request_kwargs["json"] = config.get("data")
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def start_instagram_oauth(
-        self,
-        location_id: str,
-        user_id: str,
-        page: Optional[str] = None,
-        reconnect: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None
-    ) -> Any:
-        """
-        Starts OAuth For Instagram Account
-        Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to Instagram login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function. 
-  ### Sample code to listen to event data:
-    window.addEventListener(&#x27;message&#x27;, 
-      function(e) {
-        if (e.data &amp;&amp; e.data.page &#x3D;&#x3D;&#x3D; &#x27;social_media_posting&#x27;) {
-        const { actionType, page, platform, placement, accountId, reconnectAccounts } &#x3D; e.data
-        }
-      },
-    false)
-  ### Event Data Response:
-    {
-      actionType: string,            Ex: &quot;close&quot; 
-      page: string,                  Ex: &quot;social-media-posting&quot; 
-      platform: string,              Ex: &quot;instagram&quot; 
-      placement: string,             Ex: &quot;placement&quot; 
-      accountId: string,             Ex: &quot;658a9b6833b91e0ecb8f3958&quot; 
-      reconnectAccounts: string[]]   Ex: [&quot;658a9b6833b91e0ecb834acd&quot;, &quot;efd2daa9b6833b91e0ecb8f3511&quot;] 
-    }
-  ### The accountId retrieved from above data can be used to fetch Instagram account details using below API -
-  API: &#x27;/social-media-posting/oauth/instagram/accounts/:accountId&#x27; 
-
-  Method: GET
-        """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/instagram/start", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def get_instagram_page_group(
-        self,
-        location_id: str,
-        account_id: str,
-        options: Optional[Dict[str, Any]] = None
-    ) -> GetInstagramAccountsResponseDTO:
-        """
-        Get Instagram Professional Accounts
-        Get Instagram Professional Accounts
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/{locationId}/instagram/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def attach_instagram_page_group(
-        self,
-        location_id: str,
-        account_id: str,
-        request_body: AttachIGAccountDTO,
-        options: Optional[Dict[str, Any]] = None
-    ) -> SocialMediaInstagramAccountResponseDTO:
-        """
-        Attach Instagram Professional Accounts
-        Attach Instagram Professional Accounts
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "POST",
-            "url": build_url("/social-media-posting/oauth/{locationId}/instagram/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            "data": request_body,
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            request_body
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-            request_kwargs["json"] = config.get("data")
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def start_linkedin_oauth(
-        self,
-        location_id: str,
-        user_id: str,
-        page: Optional[str] = None,
-        reconnect: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None
-    ) -> Any:
-        """
-        Starts OAuth For LinkedIn Account
-        Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to LinkedIn login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function. 
-  ### Sample code to listen to event data:
-    window.addEventListener(&#x27;message&#x27;, 
-      function(e) {
-        if (e.data &amp;&amp; e.data.page &#x3D;&#x3D;&#x3D; &#x27;social_media_posting&#x27;) {
-        const { actionType, page, platform, placement, accountId, reconnectAccounts } &#x3D; e.data
-        }
-      },
-    false)
-  ### Event Data Response:
-    {
-      actionType: string,            Ex: &quot;close&quot; 
-      page: string,                  Ex: &quot;social-media-posting&quot; 
-      platform: string,              Ex: &quot;linkedin&quot; 
-      placement: string,             Ex: &quot;placement&quot; 
-      accountId: string,             Ex: &quot;658a9b6833b91e0ecb8f3958&quot; 
-      reconnectAccounts: string[]]   Ex: [&quot;658a9b6833b91e0ecb834acd&quot;, &quot;efd2daa9b6833b91e0ecb8f3511&quot;] 
-    }
-  ### The accountId retrieved from above data can be used to fetch LinkedIn account details using below API -
-  API: &#x27;/social-media-posting/oauth/linkedin/accounts/:accountId&#x27; 
-
-  Method: GET
-        """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/linkedin/start", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def get_linkedin_page_profile(
-        self,
-        location_id: str,
-        account_id: str,
-        options: Optional[Dict[str, Any]] = None
-    ) -> GetLinkedInAccountsResponseDTO:
-        """
-        Get Linkedin pages and profile
-        Get Linkedin pages and profile
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/{locationId}/linkedin/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def attach_linkedin_page_profile(
-        self,
-        location_id: str,
-        account_id: str,
-        request_body: AttachLinkedinAccountDTO,
-        options: Optional[Dict[str, Any]] = None
-    ) -> SocialMediaLinkedInAccountResponseDTO:
-        """
-        Attach linkedin pages and profile
-        Attach linkedin pages and profile
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "POST",
-            "url": build_url("/social-media-posting/oauth/{locationId}/linkedin/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            "data": request_body,
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            request_body
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-            request_kwargs["json"] = config.get("data")
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def start_twitter_oauth(
-        self,
-        location_id: str,
-        user_id: str,
-        page: Optional[str] = None,
-        reconnect: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None
-    ) -> Any:
-        """
-        Starts OAuth For Twitter Account
-        &lt;div&gt;&lt;div&gt;
-  &lt;span style&#x3D; &quot;display: inline-block;
-    width: 25px; height: 25px;
-    background-color: red;
-    color: black;
-    font-weight: bold;
-    font-size: 24px;
-    text-align: center;
-    line-height: 20px;
-    border: 2px solid black;
-    border-radius: 20%;
-    margin-right: 10px;&quot;&gt;
-    !
-  &lt;/span&gt;
-  &lt;span&gt;&lt;strong&gt;As of December 4, 2024, X (formerly Twitter) is no longer supported. We apologise for any inconvenience.&lt;/strong&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;
-        
-        .. deprecated::
-           This method is deprecated
-        """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/twitter/start", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def get_twitter_profile(
-        self,
-        location_id: str,
-        account_id: str,
-        options: Optional[Dict[str, Any]] = None
-    ) -> GetTwitterAccountsResponseDTO:
-        """
-        Get Twitter profile
-        &lt;div&gt;&lt;div&gt;
-  &lt;span style&#x3D; &quot;display: inline-block;
-    width: 25px; height: 25px;
-    background-color: red;
-    color: black;
-    font-weight: bold;
-    font-size: 24px;
-    text-align: center;
-    line-height: 20px;
-    border: 2px solid black;
-    border-radius: 20%;
-    margin-right: 10px;&quot;&gt;
-    !
-  &lt;/span&gt;
-  &lt;span&gt;&lt;strong&gt;As of December 4, 2024, X (formerly Twitter) is no longer supported. We apologise for any inconvenience.&lt;/strong&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;
-        
-        .. deprecated::
-           This method is deprecated
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = []
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/{locationId}/twitter/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def attach_twitter_profile(
-        self,
-        location_id: str,
-        account_id: str,
-        request_body: AttachTwitterAccountDTO,
-        options: Optional[Dict[str, Any]] = None
-    ) -> SocialMediaTwitterAccountResponseDTO:
-        """
-        Attach Twitter profile
-        &lt;div&gt;&lt;div&gt;
-  &lt;span style&#x3D; &quot;display: inline-block;
-    width: 25px; height: 25px;
-    background-color: red;
-    color: black;
-    font-weight: bold;
-    font-size: 24px;
-    text-align: center;
-    line-height: 20px;
-    border: 2px solid black;
-    border-radius: 20%;
-    margin-right: 10px;&quot;&gt;
-    !
-  &lt;/span&gt;
-  &lt;span&gt;&lt;strong&gt;As of December 4, 2024, X (formerly Twitter) is no longer supported. We apologise for any inconvenience.&lt;/strong&gt;&lt;/span&gt;
-&lt;/div&gt;&lt;/div&gt;
-        
-        .. deprecated::
-           This method is deprecated
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = []
-        
-        config: RequestConfig = {
-            "method": "POST",
-            "url": build_url("/social-media-posting/oauth/{locationId}/twitter/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            "data": request_body,
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            request_body
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-            request_kwargs["json"] = config.get("data")
 
             request = self.client.build_request(**request_kwargs)
             setattr(request, "__security_requirements", requirements)
@@ -1858,7 +648,7 @@ Note:
     ) -> UploadFileResponseDTO:
         """
         Upload CSV
-        
+        Upload a CSV file containing social media posts for bulk scheduling
         """
         param_defs = [{"name": "locationId", "in": "path"}]
         extracted = extract_params({ "location_id": location_id }, param_defs)
@@ -1877,7 +667,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1926,18 +719,19 @@ Note:
     async def get_upload_status(
         self,
         location_id: str,
+        user_id: str,
         skip: Optional[str] = None,
         limit: Optional[str] = None,
         include_users: Optional[str] = None,
-        user_id: Optional[str] = None,
+        is_from_template: Optional[str] = None,
         options: Optional[Dict[str, Any]] = None
     ) -> GetUploadStatusResponseDTO:
         """
         Get Upload Status
-        
+        Get the status of all CSV imports for a location
         """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "skip", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "includeUsers", "in": "query"}, {"name": "userId", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "skip": skip, "limit": limit, "include_users": include_users, "user_id": user_id }, param_defs)
+        param_defs = [{"name": "locationId", "in": "path"}, {"name": "skip", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "includeUsers", "in": "query"}, {"name": "isFromTemplate", "in": "query"}, {"name": "userId", "in": "query"}]
+        extracted = extract_params({ "location_id": location_id, "skip": skip, "limit": limit, "include_users": include_users, "is_from_template": is_from_template, "user_id": user_id }, param_defs)
         requirements = ["bearer"]
         
         config: RequestConfig = {
@@ -1953,7 +747,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2006,7 +803,7 @@ Note:
     ) -> SetAccountsResponseDTO:
         """
         Set Accounts
-        
+        Set social media accounts for a CSV import to publish posts to
         """
         param_defs = [{"name": "locationId", "in": "path"}]
         extracted = extract_params({ "location_id": location_id }, param_defs)
@@ -2025,7 +822,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2081,7 +881,7 @@ Note:
     ) -> GetCsvPostResponseDTO:
         """
         Get CSV Post
-        
+        Get details of a specific CSV import including its posts
         """
         param_defs = [{"name": "locationId", "in": "path"}, {"name": "id", "in": "path"}, {"name": "skip", "in": "query"}, {"name": "limit", "in": "query"}]
         extracted = extract_params({ "location_id": location_id, "id": id, "skip": skip, "limit": limit }, param_defs)
@@ -2100,7 +900,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2154,7 +957,7 @@ Note:
     ) -> CsvPostStatusResponseDTO:
         """
         Start CSV Finalize
-        
+        Finalize a CSV import and schedule all posts for publishing
         """
         param_defs = [{"name": "locationId", "in": "path"}, {"name": "id", "in": "path"}]
         extracted = extract_params({ "location_id": location_id, "id": id }, param_defs)
@@ -2173,7 +976,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2227,7 +1033,7 @@ Note:
     ) -> DeleteCsvResponseDTO:
         """
         Delete CSV
-        
+        Delete a CSV import and all its associated posts
         """
         param_defs = [{"name": "locationId", "in": "path"}, {"name": "id", "in": "path"}]
         extracted = extract_params({ "location_id": location_id, "id": id }, param_defs)
@@ -2246,7 +1052,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2300,7 +1109,7 @@ Note:
     ) -> DeletePostResponseDTO:
         """
         Delete CSV Post
-        
+        Delete a specific post from a CSV import
         """
         param_defs = [{"name": "locationId", "in": "path"}, {"name": "postId", "in": "path"}, {"name": "csvId", "in": "path"}]
         extracted = extract_params({ "location_id": location_id, "post_id": post_id, "csv_id": csv_id }, param_defs)
@@ -2319,7 +1128,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2364,8 +1176,9 @@ Note:
                 config
             ) from e
 
-    async def start_tiktok_oauth(
+    async def start_oauth(
         self,
+        platform: str,
         location_id: str,
         user_id: str,
         page: Optional[str] = None,
@@ -2373,37 +1186,62 @@ Note:
         options: Optional[Dict[str, Any]] = None
     ) -> Any:
         """
-        Starts OAuth For Tiktok Account
-        Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to Tiktok login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function. 
-  ### Sample code to listen to event data:
-    window.addEventListener(&#x27;message&#x27;, 
-      function(e) {
-        if (e.data &amp;&amp; e.data.page &#x3D;&#x3D;&#x3D; &#x27;social_media_posting&#x27;) {
-        const { actionType, page, platform, placement, accountId, reconnectAccounts } &#x3D; e.data
-        }
-      },
-    false)
-  ### Event Data Response:
-    {
-      actionType: string,            Ex: &quot;close&quot; 
-      page: string,                  Ex: &quot;social-media-posting&quot; 
-      platform: string,              Ex: &quot;tiktok&quot; 
-      placement: string,             Ex: &quot;placement&quot; 
-      accountId: string,             Ex: &quot;658a9b6833b91e0ecb8f3958&quot; 
-      reconnectAccounts: string[]]   Ex: [&quot;658a9b6833b91e0ecb834acd&quot;, &quot;efd2daa9b6833b91e0ecb8f3511&quot;] 
-    }
-  ### The accountId retrieved from above data can be used to fetch Tiktok account details using below API -
-  API: &#x27;/social-media-posting/oauth/tiktok/accounts/:accountId&#x27; 
+        Start OAuth Flow (Step 1 of 3)
+        ## OAuth Connection Flow - Step 1: Initiate OAuth
 
-  Method: GET
+This is the first step in the 3-step OAuth flow to connect a social media account:
+
+1. **Start OAuth** (this endpoint) → User authenticates with the platform
+2. **Get Accounts** → Retrieve available pages/channels to connect
+3. **Attach Account** → Connect the selected account to your location
+
+### How to Use
+
+Open this API in a browser window (not via cURL) with the required query parameters. The user will be redirected to the platform&#x27;s OAuth login screen.
+
+### Receiving the OAuth Response
+
+After successful authentication, the OAuth window will post a message back to your application. Listen for this message to get the &#x60;accountId&#x60; needed for the next step.
+
+&#x60;&#x60;&#x60;javascript
+window.addEventListener(&#x27;message&#x27;, function(e) {
+  if (e.data &amp;&amp; e.data.page &#x3D;&#x3D;&#x3D; &#x27;social_media_posting&#x27;) {
+    const { actionType, page, platform, placement, accountId, reconnectAccounts } &#x3D; e.data;
+    // Use accountId for Step 2: GET /oauth/{locationId}/{platform}/accounts/{accountId}
+  }
+}, false);
+&#x60;&#x60;&#x60;
+
+### Event Data Response
+
+| Field | Type | Example | Description |
+|-------|------|---------|-------------|
+| actionType | string | &quot;close&quot; | The action type |
+| page | string | &quot;social-media-posting&quot; | Source page identifier |
+| platform | string | &quot;facebook&quot; | The OAuth platform |
+| placement | string | &quot;placement&quot; | Placement context |
+| accountId | string | &quot;658a9b6833b91e0ecb8f3958&quot; | **Use this for Step 2** |
+| reconnectAccounts | string[] | [&quot;658a9b...&quot;, &quot;efd2da...&quot;] | Accounts that need reconnection |
+
+### Next Step
+
+Use the &#x60;accountId&#x60; from the response to call:
+&#x60;&#x60;&#x60;
+GET /social-media-posting/oauth/{locationId}/{platform}/accounts/{accountId}
+&#x60;&#x60;&#x60;
+
+### Platform Notes
+
+- **bluesky**: Currently not supported, will return an error
+- **tiktok-business**: Uses a separate business OAuth flow
         """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
-        requirements = ["bearer"]
+        param_defs = [{"name": "platform", "in": "path"}, {"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
+        extracted = extract_params({ "platform": platform, "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
+        requirements = []
         
         config: RequestConfig = {
             "method": "GET",
-            "url": build_url("/social-media-posting/oauth/tiktok/start", extracted["path"]),
+            "url": build_url("/social-media-posting/oauth/{platform}/start", extracted["path"]),
             "params": extracted["query"],
             "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
             
@@ -2414,7 +1252,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2459,23 +1300,56 @@ Note:
                 config
             ) from e
 
-    async def get_tiktok_profile(
+    async def get_oauth_accounts(
         self,
         location_id: str,
+        platform: str,
         account_id: str,
+        search: Optional[str] = None,
         options: Optional[Dict[str, Any]] = None
-    ) -> GetTiktokAccountResponseDTO:
+    ) -> Any:
         """
-        Get Tiktok profile
-        Get Tiktok profile
+        Get Available Accounts (Step 2 of 3)
+        ## OAuth Connection Flow - Step 2: Get Available Accounts
+
+After completing OAuth authentication (Step 1), use this endpoint to retrieve the list of available pages, channels, or locations that can be connected.
+
+### OAuth Flow Position
+
+1. **Start OAuth** → User authenticates, returns &#x60;accountId&#x60;
+2. **Get Accounts** (this endpoint) → Lists available pages/channels to connect
+3. **Attach Account** → Connect the selected account
+
+### What This Returns
+
+The response varies by platform:
+
+| Platform | Returns |
+|----------|--------|
+| **facebook** | List of Facebook Pages the user manages |
+| **instagram** | List of Instagram Professional Accounts (linked to Facebook Pages) |
+| **google** | Google Business Profile locations |
+| **linkedin** | LinkedIn Pages and Profile |
+| **tiktok** | TikTok Creator account info |
+| **tiktok-business** | TikTok Business Center accounts |
+| **youtube** | YouTube Channels |
+| **pinterest** | Pinterest Business accounts and boards |
+| **threads** | Threads profiles |
+
+### Next Step
+
+From the response, select the account/page you want to connect and use its details in Step 3:
+&#x60;&#x60;&#x60;
+POST /social-media-posting/oauth/{locationId}/{platform}/accounts/{accountId}
+&#x60;&#x60;&#x60;
         """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
+        param_defs = [{"name": "locationId", "in": "path"}, {"name": "platform", "in": "path"}, {"name": "accountId", "in": "path"}, {"name": "search", "in": "query"}]
+        extracted = extract_params({ "location_id": location_id, "platform": platform, "account_id": account_id, "search": search }, param_defs)
+        requirements = []
         
         config: RequestConfig = {
             "method": "GET",
-            "url": build_url("/social-media-posting/oauth/{locationId}/tiktok/accounts/{accountId}", extracted["path"]),
+            "url": build_url("/social-media-posting/oauth/{locationId}/{platform}/accounts/{accountId}", extracted["path"]),
             "params": extracted["query"],
             "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
             
@@ -2486,7 +1360,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2531,24 +1408,107 @@ Note:
                 config
             ) from e
 
-    async def attach_tiktok_profile(
+    async def attach_oauth_accounts(
         self,
         location_id: str,
+        platform: str,
         account_id: str,
-        request_body: AttachTiktokAccountDTO,
+        request_body: Dict[str, Any],
         options: Optional[Dict[str, Any]] = None
-    ) -> SocialMediaTiktokAccountResponseDTO:
+    ) -> Any:
         """
-        Attach Tiktok profile
-        Attach Tiktok profile
+        Connect Account (Step 3 of 3)
+        ## OAuth Connection Flow - Step 3: Connect the Account
+
+This is the final step in the OAuth flow. After retrieving available accounts (Step 2), use this endpoint to connect the selected account to your location.
+
+### OAuth Flow Summary
+
+1. **Start OAuth** → User authenticates with platform
+2. **Get Accounts** → Retrieved available pages/channels
+3. **Attach Account** (this endpoint) → Connect the selected account
+
+### Request Body by Platform
+
+The request body structure varies depending on the platform:
+
+#### Facebook / Instagram
+&#x60;&#x60;&#x60;json
+{
+  &quot;type&quot;: &quot;page&quot;,
+  &quot;originId&quot;: &quot;244405XXXXX11687&quot;,
+  &quot;name&quot;: &quot;My Facebook Page&quot;,
+  &quot;avatar&quot;: &quot;https://...&quot; // optional
+}
+&#x60;&#x60;&#x60;
+
+#### Google Business Profile
+&#x60;&#x60;&#x60;json
+{
+  &quot;location&quot;: {
+    &quot;name&quot;: &quot;locations/12345&quot;,
+    &quot;title&quot;: &quot;My Business Location&quot;,
+    &quot;storeCode&quot;: &quot;STORE123&quot;,
+    &quot;isVerified&quot;: &quot;ChIJsZQpj1qbXjkRQNDUG4UUx6k&quot;
+  },
+  &quot;account&quot;: {
+    &quot;name&quot;: &quot;accounts/12345&quot;,
+    &quot;accountName&quot;: &quot;My Business Account&quot;,
+    &quot;type&quot;: &quot;LOCATION_GROUP&quot;,
+    &quot;verificationState&quot;: &quot;VERIFIED&quot;,
+    &quot;vettedState&quot;: &quot;VETTED&quot;
+  }
+}
+&#x60;&#x60;&#x60;
+
+#### LinkedIn
+&#x60;&#x60;&#x60;json
+{
+  &quot;type&quot;: &quot;page&quot;,
+  &quot;originId&quot;: &quot;urn:li:organization:12345&quot;,
+  &quot;name&quot;: &quot;My LinkedIn Page&quot;,
+  &quot;avatar&quot;: &quot;https://...&quot; // optional
+}
+&#x60;&#x60;&#x60;
+
+#### TikTok
+&#x60;&#x60;&#x60;json
+{
+  &quot;originId&quot;: &quot;7234567890123456789&quot;,
+  &quot;name&quot;: &quot;My TikTok Account&quot;,
+  &quot;avatar&quot;: &quot;https://...&quot; // optional
+}
+&#x60;&#x60;&#x60;
+
+#### YouTube
+&#x60;&#x60;&#x60;json
+{
+  &quot;originId&quot;: &quot;UCxxxxxxxxxxxxxxxx&quot;,
+  &quot;name&quot;: &quot;My YouTube Channel&quot;,
+  &quot;avatar&quot;: &quot;https://...&quot; // optional
+}
+&#x60;&#x60;&#x60;
+
+#### Pinterest
+&#x60;&#x60;&#x60;json
+{
+  &quot;originId&quot;: &quot;123456789&quot;,
+  &quot;name&quot;: &quot;My Pinterest Account&quot;,
+  &quot;avatar&quot;: &quot;https://...&quot; // optional
+}
+&#x60;&#x60;&#x60;
+
+### After Connection
+
+Once connected, the account will appear in your location&#x27;s connected accounts and can be used for social media posting.
         """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
+        param_defs = [{"name": "locationId", "in": "path"}, {"name": "platform", "in": "path"}, {"name": "accountId", "in": "path"}]
+        extracted = extract_params({ "location_id": location_id, "platform": platform, "account_id": account_id }, param_defs)
+        requirements = []
         
         config: RequestConfig = {
             "method": "POST",
-            "url": build_url("/social-media-posting/oauth/{locationId}/tiktok/accounts/{accountId}", extracted["path"]),
+            "url": build_url("/social-media-posting/oauth/{locationId}/{platform}/accounts/{accountId}", extracted["path"]),
             "params": extracted["query"],
             "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
             "data": request_body,
@@ -2559,7 +1519,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2605,173 +1568,6 @@ Note:
                 config
             ) from e
 
-    async def start_tiktok_business_oauth(
-        self,
-        location_id: str,
-        user_id: str,
-        page: Optional[str] = None,
-        reconnect: Optional[str] = None,
-        options: Optional[Dict[str, Any]] = None
-    ) -> Any:
-        """
-        Starts OAuth For Tiktok Business Account
-        Open the API in a window with appropriate params and headers instead of using the Curl. User is navigated to Tiktok-Business login OAuth screen. On successful login, listen on window object for message where event listener returns data in its callback function. 
-  ### Sample code to listen to event data:
-    window.addEventListener(&#x27;message&#x27;, 
-      function(e) {
-        if (e.data &amp;&amp; e.data.page &#x3D;&#x3D;&#x3D; &#x27;social_media_posting&#x27;) {
-        const { actionType, page, platform, placement, accountId, reconnectAccounts } &#x3D; e.data
-        }
-      },
-    false)
-  ### Event Data Response:
-    {
-      actionType: string,            Ex: &quot;close&quot; 
-      page: string,                  Ex: &quot;social-media-posting&quot; 
-      platform: string,              Ex: &quot;tiktok-business&quot; 
-      placement: string,             Ex: &quot;placement&quot; 
-      accountId: string,             Ex: &quot;658a9b6833b91e0ecb8f3958&quot; 
-      reconnectAccounts: string[]]   Ex: [&quot;658a9b6833b91e0ecb834acd&quot;, &quot;efd2daa9b6833b91e0ecb8f3511&quot;] 
-    }
-  ### The accountId retrieved from above data can be used to fetch Tiktok-Business account details using below API -
-  API: &#x27;/social-media-posting/oauth/tiktok-business/accounts/:accountId&#x27; 
-
-  Method: GET
-        """
-        param_defs = [{"name": "locationId", "in": "query"}, {"name": "userId", "in": "query"}, {"name": "page", "in": "query"}, {"name": "reconnect", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id, "user_id": user_id, "page": page, "reconnect": reconnect }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/tiktok-business/start", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def get_tiktok_business_profile(
-        self,
-        location_id: str,
-        account_id: str,
-        options: Optional[Dict[str, Any]] = None
-    ) -> GetTiktokBusinessAccountResponseDTO:
-        """
-        Get Tiktok Business profile
-        Get Tiktok Business profile
-        """
-        param_defs = [{"name": "locationId", "in": "path"}, {"name": "accountId", "in": "path"}]
-        extracted = extract_params({ "location_id": location_id, "account_id": account_id }, param_defs)
-        requirements = ["bearer"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/social-media-posting/oauth/{locationId}/tiktok-business/accounts/{accountId}", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
     async def get_categories_location_id(
         self,
         location_id: str,
@@ -2782,7 +1578,7 @@ Note:
     ) -> GetByLocationIdResponseDTO:
         """
         Get categories by location id
-        
+        Retrieve all categories for a specific location with optional search and pagination
         """
         param_defs = [{"name": "locationId", "in": "path"}, {"name": "searchText", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "skip", "in": "query"}]
         extracted = extract_params({ "location_id": location_id, "search_text": search_text, "limit": limit, "skip": skip }, param_defs)
@@ -2801,7 +1597,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2854,7 +1653,7 @@ Note:
     ) -> GetByIdResponseDTO:
         """
         Get categories by id
-        
+        Retrieve a specific category by its ID
         """
         param_defs = [{"name": "id", "in": "path"}, {"name": "locationId", "in": "path"}]
         extracted = extract_params({ "id": id, "location_id": location_id }, param_defs)
@@ -2873,7 +1672,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -2928,7 +1730,7 @@ Note:
     ) -> GetTagsByLocationIdResponseDTO:
         """
         Get tags by location id
-        
+        Retrieve all tags for a specific location with optional search and pagination
         """
         param_defs = [{"name": "locationId", "in": "path"}, {"name": "searchText", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "skip", "in": "query"}]
         extracted = extract_params({ "location_id": location_id, "search_text": search_text, "limit": limit, "skip": skip }, param_defs)
@@ -2947,7 +1749,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -3000,7 +1805,7 @@ Note:
     ) -> GetTagsByIdResponseDTO:
         """
         Get tags by ids
-        
+        Retrieve specific tags by their IDs
         """
         param_defs = [{"name": "locationId", "in": "path"}]
         extracted = extract_params({ "location_id": location_id }, param_defs)
@@ -3019,7 +1824,10 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -3065,19 +1873,19 @@ Note:
                 config
             ) from e
 
-    async def get_social_media_statistics(
+    async def get_statistics(
         self,
         location_id: str,
-        request_body: Optional[Dict[str, Any]] = None,
+        request_body: Dict[str, Any],
         options: Optional[Dict[str, Any]] = None
     ) -> Any:
         """
         Get Social Media Statistics
-        Retrieve analytics data for multiple social media accounts. Provides metrics for the last 7 days with comparison to the previous 7 days. Supports filtering by platforms and specific connected accounts.
+        Retrieve analytics data for multiple social media accounts. Supports custom date ranges for both the current period and a comparison period. If no date ranges are provided, defaults to the last 7 days (excluding today) with comparison to the previous 7 days.
         """
         param_defs = [{"name": "locationId", "in": "query"}]
         extracted = extract_params({ "location_id": location_id }, param_defs)
-        requirements = []
+        requirements = ["bearer"]
         
         config: RequestConfig = {
             "method": "POST",
@@ -3092,7 +1900,1693 @@ Note:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
         
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def fetch_available_categories(
+        self,
+        location_id: str,
+        skip: Optional[str] = None,
+        limit: Optional[str] = None,
+        q: Optional[str] = None,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedFetchAvailableCategoriesResponseDTO:
+        """
+        Get all categories with their queue status
+        Returns categories with status: &quot;available&quot; (no queue), &quot;in_queue&quot; (active/paused queue), or &quot;draft&quot; (queue in draft).
+        """
+        param_defs = [{"name": "locationId", "in": "query"}, {"name": "skip", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "q", "in": "query"}]
+        extracted = extract_params({ "location_id": location_id, "skip": skip, "limit": limit, "q": q }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "GET",
+            "url": build_url("/social-media-posting/category/queues/available-categories", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {}
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def create_queue(
+        self,
+        request_body: CreateCategoryQueueDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedCreateCategoryQueueResponseDTO:
+        """
+        Create a new category queue
+        Creates a queue in draft status for a category. Published posts are auto-added. Use update endpoint to activate.
+        """
+        param_defs = []
+        extracted = extract_params(None, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def fetch_queues(
+        self,
+        request_body: FetchCategoryQueuesDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedFetchCategoryQueuesResponseDTO:
+        """
+        Fetch category queues for a location
+        Retrieves a paginated list of all category queues for a given location, excluding any that have been marked as deleted.
+        """
+        param_defs = []
+        extracted = extract_params(None, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/list", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def fetch_queue_by_id(
+        self,
+        queue_id: str,
+        location_id: str,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedFetchQueueByIdResponseDTO:
+        """
+        Fetch a category queue by ID
+        Retrieves the details of a single category queue by its unique ID. The response includes a count of posts within the queue that have errors.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}, {"name": "locationId", "in": "query"}]
+        extracted = extract_params({ "queue_id": queue_id, "location_id": location_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "GET",
+            "url": build_url("/social-media-posting/category/queues/{queueId}", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {}
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def update_queue(
+        self,
+        queue_id: str,
+        request_body: UpdateCategoryQueueDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedUpdateCategoryQueueResponseDTO:
+        """
+        Update queue settings or status
+        Updates queue status (active/paused/deleted), time slots, or skip dates.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "PUT",
+            "url": build_url("/social-media-posting/category/queues/{queueId}", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def fetch_queue_items(
+        self,
+        queue_id: str,
+        request_body: FetchQueueItemsDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedFetchQueueItemsResponseDTO:
+        """
+        Fetch items from a queue
+        Returns paginated queue items. Pass sessionId to get draft items from an edit session instead of live items.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/items", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def start_edit_session(
+        self,
+        queue_id: str,
+        request_body: StartEditSessionDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedStartEditSessionResponseDTO:
+        """
+        Start or resume an edit session
+        Creates a draft copy of queue items for editing. Changes are staged until saved or discarded.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/edit/start", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def save_edit_session(
+        self,
+        queue_id: str,
+        request_body: SaveEditSessionDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedSaveEditSessionResponseDTO:
+        """
+        Save edit session changes
+        Applies all staged changes to the live queue and closes the edit session.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/edit/save", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def discard_edit_session(
+        self,
+        queue_id: str,
+        request_body: DiscardEditSessionDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedDiscardEditSessionResponseDTO:
+        """
+        Discard edit session changes
+        Cancels the edit session and deletes all staged changes without affecting the live queue.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/edit/discard", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def fetch_edit_session_calendar(
+        self,
+        queue_id: str,
+        request_body: EditSessionCalendarDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedEditSessionCalendarResponseDTO:
+        """
+        Fetch calendar view for an edit session
+        Retrieves a calendar preview of scheduled posts based on draft items within an edit session. This shows how posts would be scheduled if changes were saved.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/edit/calendar", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def fetch_slots(
+        self,
+        queue_id: str,
+        request_body: FetchSlotsDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedFetchSlotsResponseDTO:
+        """
+        Fetch slot information for queue items
+        Returns paginated slot information (scheduledDateTime, isSkipped) for queue items. Pass sessionId to get slots for draft items, or omit for live items. Call this after mutations to refresh slot data.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/slots", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def delete_queue_item(
+        self,
+        queue_id: str,
+        item_id: str,
+        location_id: str,
+        session_id: Optional[str] = None,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedGeneralSuccessResponseDTO:
+        """
+        Delete an item from a queue
+        Deletes an item from a specific category queue.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}, {"name": "itemId", "in": "path"}, {"name": "locationId", "in": "query"}, {"name": "sessionId", "in": "query"}]
+        extracted = extract_params({ "queue_id": queue_id, "item_id": item_id, "location_id": location_id, "session_id": session_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "DELETE",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/items/{itemId}", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {}
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def update_queue_item(
+        self,
+        queue_id: str,
+        item_id: str,
+        request_body: UpdateQueueItemDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedUpdateQueueItemResponseDTO:
+        """
+        Update an item in a queue
+        Updates the content or variations of a specific item within a category queue.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}, {"name": "itemId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id, "item_id": item_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "PUT",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/items/{itemId}", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def fetch_calendar_list(
+        self,
+        request_body: CalendarListDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedFetchCalendarListResponseDTO:
+        """
+        Get scheduled posts calendar view
+        Returns scheduled posts from active queues within a date range. Supports filtering by categories and accounts.
+        """
+        param_defs = []
+        extracted = extract_params(None, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/list/calendar", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def delete_current_active_post_and_schedule_next(
+        self,
+        post_id: str,
+        location_id: str,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedDeleteActivePostResponseDTO:
+        """
+        Delete an active post and schedule the next one
+        Deletes a post that is currently scheduled and automatically triggers the scheduling of the next available post in the queue.
+        """
+        param_defs = [{"name": "postId", "in": "path"}, {"name": "locationId", "in": "query"}]
+        extracted = extract_params({ "post_id": post_id, "location_id": location_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "DELETE",
+            "url": build_url("/social-media-posting/category/queues/{postId}/active-post", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {}
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def reset_queue_item(
+        self,
+        queue_id: str,
+        item_id: str,
+        request_body: ResetQueueItemDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedResetQueueItemResponseDTO:
+        """
+        Reset an item in a queue
+        Resets a specific queue item to its original state, discarding any modifications made.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}, {"name": "itemId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id, "item_id": item_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "PUT",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/items/{itemId}/reset", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def clone_queue_item(
+        self,
+        queue_id: str,
+        item_id: str,
+        request_body: CloneQueueItemDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedCloneQueueItemResponseDTO:
+        """
+        Clone a queue item
+        Duplicates an existing queue item at a specified order position. Requires an active edit session.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}, {"name": "itemId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id, "item_id": item_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/items/{itemId}/clone", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def create_queue_item(
+        self,
+        queue_id: str,
+        request_body: CreateQueueItemDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> WrappedCreateQueueItemResponseDTO:
+        """
+        Create a new item in the queue
+        Adds a new post item to a queue. Use sessionId for edit session or directToQueue for immediate addition.
+        """
+        param_defs = [{"name": "queueId", "in": "path"}]
+        extracted = extract_params({ "queue_id": queue_id }, param_defs)
+        requirements = ["bearer"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/category/queues/{queueId}/create/item", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def create_comment(
+        self,
+        platform: str,
+        location_id: str,
+        request_body: CommentsCreateBodyDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> CommentsCreateResponseDTO:
+        """
+        Create a comment or reply
+        Create a top-level comment on a post (&#x60;isParentThread: true&#x60;, &#x60;parentId&#x60; &#x3D; postId) or a reply to an existing comment (&#x60;isParentThread: false&#x60;, &#x60;parentId&#x60; &#x3D; commentId). Per-platform content max length: Facebook 8000, Instagram 2200, Linkedin 3000, Community 8000, Tiktok 150, Bluesky 300, Youtube 10000, Threads 500.
+
+**Optional-field platform support:**
+- &#x60;attachments&#x60; — supported on **Facebook only**. Ignored on Instagram, LinkedIn, TikTok, Bluesky, Community (Community processes the field but external URLs are not rendered due to its bucket restriction).
+- &#x60;mentions&#x60; — supported on **Facebook**, **LinkedIn**, and **Community** only. Ignored on Instagram, TikTok, Bluesky.
+- &#x60;notifyAllGroupMembers&#x60; — supported on **Community** only. When &#x60;true&#x60;, all group members get a push/in-app notification (equivalent to an &#x60;@everyone&#x60; broadcast). Independent of the &#x60;mentions&#x60; array and of &#x60;@everyone&#x60; text in &#x60;content&#x60;. Default &#x60;false&#x60;.
+        """
+        param_defs = [{"name": "platform", "in": "path"}, {"name": "locationId", "in": "query"}]
+        extracted = extract_params({ "platform": platform, "location_id": location_id }, param_defs)
+        requirements = []
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/comments/{platform}", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def create_like(
+        self,
+        platform: str,
+        id: str,
+        location_id: str,
+        options: Optional[Dict[str, Any]] = None
+    ) -> CommentsLikeResponseDTO:
+        """
+        Like a comment
+        Like a comment by its **Highlevel** comment ID (the &#x60;_id&#x60; returned by the list-comments endpoint — not the native platform ID).
+
+Works for any comment level — top-level comments, replies, and replies-to-replies. **Supported platforms:** Facebook, LinkedIn, Community, TikTok, Bluesky. Instagram is not supported (passing &#x60;instagram&#x60; returns 400).
+        """
+        param_defs = [{"name": "platform", "in": "path"}, {"name": "id", "in": "path"}, {"name": "locationId", "in": "query"}]
+        extracted = extract_params({ "platform": platform, "id": id, "location_id": location_id }, param_defs)
+        requirements = []
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/comments/{platform}/{id}/like", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {}
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def delete_like(
+        self,
+        platform: str,
+        id: str,
+        location_id: str,
+        options: Optional[Dict[str, Any]] = None
+    ) -> DeleteLikeResponseDTO:
+        """
+        Unlike a comment
+        Remove a like from a comment by its **Highlevel** comment ID (the &#x60;_id&#x60; returned by the list-comments endpoint — not the native platform ID).
+
+Works for any comment level — top-level comments, replies, and replies-to-replies. **Supported platforms:** Facebook, LinkedIn, Community, TikTok, Bluesky. Instagram is not supported (passing &#x60;instagram&#x60; returns 400).
+        """
+        param_defs = [{"name": "platform", "in": "path"}, {"name": "id", "in": "path"}, {"name": "locationId", "in": "query"}]
+        extracted = extract_params({ "platform": platform, "id": id, "location_id": location_id }, param_defs)
+        requirements = []
+        
+        config: RequestConfig = {
+            "method": "DELETE",
+            "url": build_url("/social-media-posting/comments/{platform}/{id}/like", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {}
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def get_comment_list(
+        self,
+        platform: str,
+        location_id: str,
+        request_body: CommentsGetListBodyDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> CommentsGetListResponseDTO:
+        """
+        List comments for a post or thread
+        Paginated list of comments scoped to a post (&#x60;parentId&#x60; &#x3D; postId) or a comment thread (&#x60;parentId&#x60; &#x3D; commentId). Use &#x60;skip&#x60;/&#x60;limit&#x60; for pagination, &#x60;sortBy&#x60; for ordering, &#x60;originIds&#x60; to filter by connected account, and &#x60;search&#x60; for keyword search.
+        """
+        param_defs = [{"name": "platform", "in": "path"}, {"name": "locationId", "in": "query"}]
+        extracted = extract_params({ "platform": platform, "location_id": location_id }, param_defs)
+        requirements = []
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/social-media-posting/comments/{platform}/list", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,

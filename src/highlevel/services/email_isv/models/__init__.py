@@ -1,7 +1,7 @@
 """EmailIsv Models"""
 
+from .email_isv import LeadConnectorRecommendationDto
 from .email_isv import EmailNotVerifiedResponseDto
-from .email_isv import LeadConnectorRecomandationDto
-from .email_isv import EmailVerifiedResponseDto
+from .email_isv import EmailVerifiedV3ResponseDto
 from .email_isv import VerificationBodyDto
-__all__ = ["EmailNotVerifiedResponseDto", "LeadConnectorRecomandationDto", "EmailVerifiedResponseDto", "VerificationBodyDto"]
+__all__ = ["LeadConnectorRecommendationDto", "EmailNotVerifiedResponseDto", "EmailVerifiedV3ResponseDto", "VerificationBodyDto"]

@@ -1,26 +1,12 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Conversations Models
 
 from typing import Optional, Any, List, Dict
 from pydantic import BaseModel
-
-class BadRequestDTO(BaseModel):
-    """BadRequestDTO model"""
-    statusCode: Optional[float] = None
-    message: Optional[str] = None
-
-class UnauthorizedDTO(BaseModel):
-    """UnauthorizedDTO model"""
-    statusCode: Optional[float] = None
-    message: Optional[str] = None
-    error: Optional[str] = None
-
-class ForbiddenDTO(BaseModel):
-    """ForbiddenDTO model"""
-    statusCode: Optional[float] = None
-    message: Optional[str] = None
-    error: Optional[str] = None
 
 class StartAfterNumberSchema(BaseModel):
     """StartAfterNumberSchema model"""
@@ -87,7 +73,7 @@ class UpdateConversationDto(BaseModel):
     locationId: str
     unreadCount: Optional[float] = None
     starred: Optional[bool] = None
-    feedback: Optional[Dict[str, Any]] = None
+    feedback: Optional[str] = None
 
 class ConversationDto(BaseModel):
     """ConversationDto model"""
@@ -151,7 +137,6 @@ class MessageMeta(BaseModel):
 class GetMessageResponseDto(BaseModel):
     """GetMessageResponseDto model"""
     id: str
-    altId: Optional[str] = None
     type: float
     messageType: str
     locationId: str
@@ -169,13 +154,34 @@ class GetMessageResponseDto(BaseModel):
     conversationProviderId: Optional[str] = None
     chatWidgetId: Optional[str] = None
 
+class ExportMessagesResponseDto(BaseModel):
+    """ExportMessagesResponseDto model"""
+    messages: List[GetMessageResponseDto]
+    nextCursor: Optional[str] = None
+    total: float
+
 class GetMessagesByConversationResponseDto(BaseModel):
     """GetMessagesByConversationResponseDto model"""
-    messages: Dict[str, Any]
+    lastMessageId: str
+    nextPage: bool
+    messages: List[GetMessageResponseDto]
+
+class ForwardConfigDto(BaseModel):
+    """ForwardConfigDto model"""
+    isForwarded: bool
+    forwardWholeThread: Optional[bool] = None
+    messageId: Optional[str] = None
+    emailMessageId: Optional[str] = None
+    sourceContactId: Optional[str] = None
+    sourceConversationId: Optional[str] = None
+    toEmail: Optional[str] = None
+    recipientContactId: Optional[str] = None
+    recipientConversationId: Optional[str] = None
 
 class SendMessageBodyDto(BaseModel):
     """SendMessageBodyDto model"""
     type: str
+    subType: Dict[str, Any]
     contactId: str
     appointmentId: Optional[str] = None
     attachments: Optional[List[str]] = None
@@ -191,9 +197,25 @@ class SendMessageBodyDto(BaseModel):
     scheduledTimestamp: Optional[float] = None
     conversationProviderId: Optional[str] = None
     emailTo: Optional[str] = None
+    customSubtypeId: Optional[str] = None
     emailReplyMode: Optional[str] = None
     fromNumber: Optional[str] = None
     toNumber: Optional[str] = None
+    forward: Optional[Any] = None
+    status: str
+    usesNativeSchedulingAi: Optional[bool] = None
+    optimizationPeriod: Optional[str] = None
+
+class ForwardResponseDto(BaseModel):
+    """ForwardResponseDto model"""
+    forwardWholeThread: Optional[bool] = None
+    messageId: Optional[str] = None
+    emailMessageId: Optional[str] = None
+    sourceContactId: Optional[str] = None
+    sourceConversationId: Optional[str] = None
+    forwardToEmail: Optional[str] = None
+    recipientContactId: Optional[str] = None
+    recipientConversationId: Optional[str] = None
 
 class SendMessageResponseDto(BaseModel):
     """SendMessageResponseDto model"""
@@ -202,6 +224,8 @@ class SendMessageResponseDto(BaseModel):
     messageId: str
     messageIds: Optional[List[str]] = None
     msg: Optional[str] = None
+    forwardData: Optional[Any] = None
+    status: str
 
 class CallDataDTO(BaseModel):
     """CallDataDTO model"""
@@ -215,6 +239,7 @@ class ProcessMessageBodyDto(BaseModel):
     attachments: Optional[List[str]] = None
     message: Optional[str] = None
     conversationId: str
+    contactId: str
     conversationProviderId: str
     html: Optional[str] = None
     subject: Optional[str] = None
@@ -251,12 +276,16 @@ class ProcessOutboundMessageBodyDto(BaseModel):
 class UploadFilesDto(BaseModel):
     """UploadFilesDto model"""
     conversationId: str
+    contactId: str
     locationId: str
     attachmentUrls: List[str]
+    chatServiceSid: Optional[str] = None
+    isGroupSms: Optional[str] = None
 
 class UploadFilesResponseDto(BaseModel):
     """UploadFilesResponseDto model"""
     uploadedFiles: Dict[str, Any]
+    twilioMediaSids: Optional[List[str]] = None
 
 class UploadFilesErrorResponseDto(BaseModel):
     """UploadFilesErrorResponseDto model"""
@@ -275,6 +304,10 @@ class UpdateMessageStatusDto(BaseModel):
     error: Optional[Any] = None
     emailMessageId: Optional[str] = None
     recipients: Optional[List[str]] = None
+
+class AddMessageAttachmentsDto(BaseModel):
+    """AddMessageAttachmentsDto model"""
+    attachments: List[str]
 
 class GetMessageTranscriptionResponseDto(BaseModel):
     """GetMessageTranscriptionResponseDto model"""
@@ -295,4 +328,70 @@ class UserTypingBody(BaseModel):
 class CreateLiveChatMessageFeedbackResponse(BaseModel):
     """CreateLiveChatMessageFeedbackResponse model"""
     success: bool
+
+class EmailEventsDto(BaseModel):
+    """EmailEventsDto model"""
+    delivered: Optional[int] = None
+    opened: Optional[int] = None
+    clicked: Optional[int] = None
+    replied: Optional[int] = None
+    failed: Optional[int] = None
+    accepted: Optional[int] = None
+    rejected: Optional[int] = None
+    unsubscribed: Optional[int] = None
+    complained: Optional[int] = None
+    stored: Optional[int] = None
+
+class UpdateRecipientMessageStatusDto(BaseModel):
+    """UpdateRecipientMessageStatusDto model"""
+    emailId: str
+    status: str
+    failReason: Optional[str] = None
+
+class UpdateEmailMessageStatusDto(BaseModel):
+    """UpdateEmailMessageStatusDto model"""
+    events: Optional[Any] = None
+    recipients: Optional[List[UpdateRecipientMessageStatusDto]] = None
+    status: str
+
+class UpdateEmailMessageStatusResponseDto(BaseModel):
+    """UpdateEmailMessageStatusResponseDto model"""
+    success: bool
+    message: str
+
+class SendReviewReplyDto(BaseModel):
+    """SendReviewReplyDto model"""
+    conversationId: str
+    locationId: str
+    message: str
+
+class InitiateFileUploadDto(BaseModel):
+    """InitiateFileUploadDto model"""
+    locationId: str
+    conversationId: str
+    filename: str
+    contentType: str
+    fileSize: Optional[float] = None
+    channel: str
+
+class InitiateFileUploadResponseDto(BaseModel):
+    """InitiateFileUploadResponseDto model"""
+    uploadUrl: str
+    uploadId: str
+    filePath: str
+    expiresAt: float
+    maxFileSize: float
+
+class CompleteFileUploadDto(BaseModel):
+    """CompleteFileUploadDto model"""
+    uploadId: str
+    filePath: str
+    locationId: str
+    conversationId: str
+    filename: str
+
+class CompleteFileUploadResponseDto(BaseModel):
+    """CompleteFileUploadResponseDto model"""
+    uploadedFiles: Dict[str, Any]
+    metadata: Dict[str, Any]
 

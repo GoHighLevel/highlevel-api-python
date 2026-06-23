@@ -1,6 +1,9 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
-# SaasApi Models
+# Saas Models
 
 from typing import Optional, Any, List, Dict
 from pydantic import BaseModel
@@ -164,4 +167,31 @@ class SaasPlanResponseDto(BaseModel):
     isSaaSV2: bool
     createdAt: str
     updatedAt: str
+
+class LocationWalletBalanceDto(BaseModel):
+    """LocationWalletBalanceDto model"""
+    walletId: str
+    balance: float
+    complimentaryCredits: float
+
+class ComplimentaryCreditDTO(BaseModel):
+    """ComplimentaryCreditDTO model"""
+    complimentaryCreditsAmount: Optional[float] = None
+
+class AttachedRebillingProductConfigDto(BaseModel):
+    """AttachedRebillingProductConfigDto model"""
+    enabled: bool
+    markup: float
+    price: Optional[float] = None
+
+class AllowAttachRebillingDto(BaseModel):
+    """AllowAttachRebillingDto model"""
+    companyId: str
+    attachedRebillingConfig: Optional[Dict[str, Any]] = None
+
+class AllowAttachRebillingResponseDto(BaseModel):
+    """AllowAttachRebillingResponseDto model"""
+    success: bool
+    locationId: str
+    attachedRebillingConfig: Dict[str, Any]
 

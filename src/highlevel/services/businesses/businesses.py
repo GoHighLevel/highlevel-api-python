@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -42,7 +46,10 @@ class Businesses:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -114,7 +121,10 @@ class Businesses:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -185,7 +195,10 @@ class Businesses:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -233,14 +246,16 @@ class Businesses:
     async def get_businesses_by_location(
         self,
         location_id: str,
+        limit: Optional[str] = None,
+        skip: Optional[str] = None,
         options: Optional[Dict[str, Any]] = None
     ) -> GetBusinessByLocationResponseDto:
         """
         Get Businesses by Location
         Get Businesses by Location
         """
-        param_defs = [{"name": "locationId", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id }, param_defs)
+        param_defs = [{"name": "locationId", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "skip", "in": "query"}]
+        extracted = extract_params({ "location_id": location_id, "limit": limit, "skip": skip }, param_defs)
         requirements = ["bearer"]
         
         config: RequestConfig = {
@@ -256,7 +271,10 @@ class Businesses:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -327,7 +345,10 @@ class Businesses:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,

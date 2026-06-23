@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Blogs Models
@@ -23,6 +26,7 @@ class UpdateBlogPostParams(BaseModel):
     tags: Optional[List[str]] = None
     author: str
     urlSlug: str
+    wordCount: float
     canonicalLink: Optional[str] = None
     publishedAt: str
 

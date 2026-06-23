@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Invoices Models
@@ -60,7 +63,7 @@ class TipsConfigurationDto(BaseModel):
 
 class LateFeesFrequencyDto(BaseModel):
     """LateFeesFrequencyDto model"""
-    intervalCount: Optional[float] = None
+    intervalCount: float
     interval: str
 
 class LateFeesGraceDto(BaseModel):
@@ -448,6 +451,7 @@ class AutoPaymentDetailsDto(BaseModel):
     bacsDirectDebit: Optional[BacsDirectDebitDTO] = None
     becsDirectDebit: Optional[BecsDirectDebitDTO] = None
     cardId: Optional[str] = None
+    provider: Optional[Dict[str, Any]] = None
 
 class ScheduleInvoiceScheduleDto(BaseModel):
     """ScheduleInvoiceScheduleDto model"""
@@ -585,6 +589,108 @@ class GenerateInvoiceNumberResponseDto(BaseModel):
     """GenerateInvoiceNumberResponseDto model"""
     invoiceNumber: Optional[float] = None
 
+class CustomNotificationItemDto(BaseModel):
+    """CustomNotificationItemDto model"""
+    enabled: bool
+    emailTemplate: str
+    smsTemplate: str
+    fromName: Optional[str] = None
+    fromEmail: Optional[str] = None
+    emailSubject: Optional[str] = None
+    defaultEmailTemplateId: Optional[str] = None
+
+class CustomNotificationDto(BaseModel):
+    """CustomNotificationDto model"""
+    customerSendInvoice: CustomNotificationItemDto
+    teamPaymentSuccess: CustomNotificationItemDto
+    customerPaymentSuccess: CustomNotificationItemDto
+    teamAutoPaymentSuccess: CustomNotificationItemDto
+    customerAutoPaymentSuccess: CustomNotificationItemDto
+    teamPaymentFailure: CustomNotificationItemDto
+    customerPaymentFailure: CustomNotificationItemDto
+    teamAutoPaymentFailure: CustomNotificationItemDto
+    customerAutoPaymentFailure: CustomNotificationItemDto
+    customerAutoPaymentInfo: CustomNotificationItemDto
+    customerAutoPaymentAmountChanged: CustomNotificationItemDto
+    teamAutoPaymentSkip: CustomNotificationItemDto
+    teamRecurringSendInvoiceFailed: CustomNotificationItemDto
+    customerSendEstimate: CustomNotificationItemDto
+    teamEstimateAccepted: CustomNotificationItemDto
+    teamEstimateDeclined: CustomNotificationItemDto
+
+class Address(BaseModel):
+    """Address model"""
+    addressLine1: Optional[str] = None
+    addressLine2: Optional[str] = None
+    city: Optional[str] = None
+    state: Optional[str] = None
+    countryCode: Optional[str] = None
+    postalCode: Optional[str] = None
+
+class InvoiceSettingsBusinessDetailsDto(BaseModel):
+    """InvoiceSettingsBusinessDetailsDto model"""
+    logoUrl: Optional[str] = None
+    name: str
+    phoneNo: Optional[str] = None
+    address: Optional[Address] = None
+    website: Optional[str] = None
+    customValues: Optional[List[str]] = None
+
+class InvoiceSettingsSenderConfigurationDto(BaseModel):
+    """InvoiceSettingsSenderConfigurationDto model"""
+    fromName: Optional[str] = None
+    fromEmail: Optional[str] = None
+
+class InvoiceProductSettingsDto(BaseModel):
+    """InvoiceProductSettingsDto model"""
+    enableImportProductDescription: Optional[bool] = None
+    descriptionOptional: Optional[bool] = None
+
+class ReminderDto(BaseModel):
+    """ReminderDto model"""
+    enabled: bool
+    emailTemplate: str
+    smsTemplate: str
+    emailSubject: str
+    reminderId: str
+    reminderName: str
+    reminderTime: str
+    intervalType: str
+    maxReminders: float
+    reminderInvoiceCondition: str
+    reminderNumber: float
+    startTime: Optional[str] = None
+    endTime: Optional[str] = None
+    timezone: Optional[str] = None
+
+class ReminderSettingsDto(BaseModel):
+    """ReminderSettingsDto model"""
+    defaultEmailTemplateId: str
+    reminders: List[ReminderDto]
+
+class GetInvoiceSettingsResponseDto(BaseModel):
+    """GetInvoiceSettingsResponseDto model"""
+    altId: Optional[str] = None
+    altType: Optional[str] = None
+    termsNote: Optional[str] = None
+    estimatesTermsNote: Optional[str] = None
+    title: Optional[str] = None
+    estimatesTitle: Optional[str] = None
+    invoiceNumberPrefix: Optional[str] = None
+    estimateNumberPrefix: Optional[str] = None
+    dueAfterXDays: Optional[float] = None
+    estimatesExpireAfterXDays: Optional[float] = None
+    minimumPercentagePartialPayment: Optional[float] = None
+    customFields: Optional[List[str]] = None
+    customNotification: Optional[Any] = None
+    businessDetails: Optional[Any] = None
+    senderConfiguration: Optional[Any] = None
+    productSettings: Optional[Any] = None
+    reminderSettings: Optional[Any] = None
+    lateFeesConfiguration: Optional[Any] = None
+    tipsConfiguration: Optional[Any] = None
+    paymentMethods: Optional[Any] = None
+
 class CreateInvoiceDto(BaseModel):
     """CreateInvoiceDto model"""
     altId: str
@@ -648,28 +754,6 @@ class TotalSummaryDto(BaseModel):
 
 class ReminderExecutionDetailsList(BaseModel):
     """ReminderExecutionDetailsList model"""
-
-class ReminderDto(BaseModel):
-    """ReminderDto model"""
-    enabled: bool
-    emailTemplate: str
-    smsTemplate: str
-    emailSubject: str
-    reminderId: str
-    reminderName: str
-    reminderTime: str
-    intervalType: str
-    maxReminders: float
-    reminderInvoiceCondition: str
-    reminderNumber: float
-    startTime: Optional[str] = None
-    endTime: Optional[str] = None
-    timezone: Optional[str] = None
-
-class ReminderSettingsDto(BaseModel):
-    """ReminderSettingsDto model"""
-    defaultEmailTemplateId: str
-    reminders: List[ReminderDto]
 
 class RemindersConfigurationDto(BaseModel):
     """RemindersConfigurationDto model"""
@@ -819,11 +903,6 @@ class VoidInvoiceResponseDto(BaseModel):
     automaticTaxesCalculated: Optional[bool] = None
     paymentSchedule: Optional[Dict[str, Any]] = None
 
-class InvoiceSettingsSenderConfigurationDto(BaseModel):
-    """InvoiceSettingsSenderConfigurationDto model"""
-    fromName: Optional[str] = None
-    fromEmail: Optional[str] = None
-
 class SendInvoiceDto(BaseModel):
     """SendInvoiceDto model"""
     altId: str
@@ -866,6 +945,22 @@ class PatchInvoiceStatsLastViewedDto(BaseModel):
     """PatchInvoiceStatsLastViewedDto model"""
     invoiceId: str
 
+class EstimateLineItemDto(BaseModel):
+    """EstimateLineItemDto model"""
+    name: str
+    description: Optional[str] = None
+    productId: Optional[str] = None
+    priceId: Optional[str] = None
+    currency: str
+    amount: float
+    qty: float
+    taxes: Optional[List[ItemTaxDto]] = None
+    automaticTaxCategoryId: Optional[str] = None
+    isSetupFeeItem: Optional[bool] = None
+    type: Optional[str] = None
+    taxInclusive: Optional[bool] = None
+    attachments: Optional[List[str]] = None
+
 class SendEstimateDto(BaseModel):
     """SendEstimateDto model"""
     altId: str
@@ -904,7 +999,7 @@ class CreateEstimatesDto(BaseModel):
     name: str
     businessDetails: BusinessDetailsDto
     currency: str
-    items: List[InvoiceItemDto]
+    items: List[EstimateLineItemDto]
     liveMode: Optional[bool] = None
     discount: DiscountDto
     termsNotes: Optional[str] = None
@@ -981,7 +1076,7 @@ class UpdateEstimateDto(BaseModel):
     name: str
     businessDetails: BusinessDetailsDto
     currency: str
-    items: List[InvoiceItemDto]
+    items: List[EstimateLineItemDto]
     liveMode: Optional[bool] = None
     discount: DiscountDto
     termsNotes: Optional[str] = None

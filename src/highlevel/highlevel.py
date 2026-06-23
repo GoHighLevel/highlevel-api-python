@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from typing import Any, Dict, Optional, Awaitable
 import asyncio
 import inspect
@@ -5,13 +8,19 @@ import copy
 import httpx
 import time
 import json
+from .services.ad_publishing.ad_publishing import AdPublishing
+from .services.affiliate_manager.affiliate_manager import AffiliateManager
+from .services.agent_studio.agent_studio import AgentStudio
 from .services.associations.associations import Associations
 from .services.blogs.blogs import Blogs
+from .services.brand_boards.brand_boards import BrandBoards
 from .services.businesses.businesses import Businesses
 from .services.calendars.calendars import Calendars
 from .services.campaigns.campaigns import Campaigns
+from .services.chat_widget.chat_widget import ChatWidget
 from .services.companies.companies import Companies
 from .services.contacts.contacts import Contacts
+from .services.conversation_ai.conversation_ai import ConversationAi
 from .services.conversations.conversations import Conversations
 from .services.courses.courses import Courses
 from .services.custom_fields.custom_fields import CustomFields
@@ -21,6 +30,7 @@ from .services.emails.emails import Emails
 from .services.forms.forms import Forms
 from .services.funnels.funnels import Funnels
 from .services.invoices.invoices import Invoices
+from .services.knowledge_base.knowledge_base import KnowledgeBase
 from .services.links.links import Links
 from .services.locations.locations import Locations
 from .services.marketplace.marketplace import Marketplace
@@ -32,9 +42,9 @@ from .services.payments.payments import Payments
 from .services.phone_system.phone_system import PhoneSystem
 from .services.products.products import Products
 from .services.proposals.proposals import Proposals
-from .services.saas_api.saas_api import SaasApi
+from .services.saas.saas import Saas
 from .services.snapshots.snapshots import Snapshots
-from .services.social_media_posting.social_media_posting import SocialMediaPosting
+from .services.social_planner.social_planner import SocialPlanner
 from .services.store.store import Store
 from .services.surveys.surveys import Surveys
 from .services.users.users import Users
@@ -45,12 +55,20 @@ from .storage import SessionStorage, MemorySessionStorage, ISessionData
 from .logging import Logger
 from .webhook import WebhookManager
 from .constants import UserType
+from importlib.metadata import version as _pkg_version, PackageNotFoundError
+
+# SDK version, read from the installed package metadata and sent in each request
+try:
+    SDK_VERSION = _pkg_version("gohighlevel-api-client")
+except PackageNotFoundError:
+    SDK_VERSION = "unknown"
 
 
 class HighLevel:
     """HighLevel SDK Client"""
     
     BASE_URL = "https://services.leadconnectorhq.com"
+    API_VERSION = "v3"
 
     def __init__(
         self,
@@ -60,8 +78,7 @@ class HighLevel:
         agency_access_token: Optional[str] = None,
         location_access_token: Optional[str] = None,
         session_storage: Optional[SessionStorage] = None,
-        log_level: Optional[str] = None,
-        api_version: Optional[str] = None
+        log_level: Optional[str] = None
     ):
         # Validate configuration
         if not private_integration_token and (not client_id or not client_secret):
@@ -74,7 +91,6 @@ class HighLevel:
 
         # Set default configuration
         self.config = {
-            "api_version": api_version or "2021-07-28",
             "private_integration_token": private_integration_token,
             "agency_access_token": agency_access_token,
             "location_access_token": location_access_token,
@@ -114,7 +130,8 @@ class HighLevel:
         """Generate default headers for HTTP requests"""
         headers = {
             "Content-Type": "application/json",
-            "Version": self.config["api_version"]
+            "Version": self.API_VERSION,
+            "GHL-SDK-Version": f"python/{SDK_VERSION}",
         }
         
         # Priority 1: private_integration_token
@@ -214,7 +231,7 @@ class HighLevel:
             })
             
             self.logger.info(f"Token refreshed successfully for {resource_id}")
-            return f"Bearer {new_token_data['access_token']}"
+            return f"Bearer {new_token_data.get('access_token') or new_token_data.get('accessToken')}"
         
         except Exception as error:
             self.logger.error(f"Failed to refresh token for {resource_id}: {error}")
@@ -276,7 +293,7 @@ class HighLevel:
             })
             
             self.logger.info(f"Location token fetched successfully using company token fallback for location_id: {location_id}")
-            return f"Bearer {new_location_token_data['access_token']}"
+            return f"Bearer {new_location_token_data.get('access_token') or new_location_token_data.get('accessToken')}"
         
         except Exception as error:
             self.logger.error(f"Failed to handle location token fallback for location_id: {location_id}: {error}")
@@ -388,13 +405,19 @@ class HighLevel:
     
     def _initialize_services(self) -> None:
         """Initialize all service instances with the HighLevel instance"""
+        self.ad_publishing = AdPublishing(self)
+        self.affiliate_manager = AffiliateManager(self)
+        self.agent_studio = AgentStudio(self)
         self.associations = Associations(self)
         self.blogs = Blogs(self)
+        self.brand_boards = BrandBoards(self)
         self.businesses = Businesses(self)
         self.calendars = Calendars(self)
         self.campaigns = Campaigns(self)
+        self.chat_widget = ChatWidget(self)
         self.companies = Companies(self)
         self.contacts = Contacts(self)
+        self.conversation_ai = ConversationAi(self)
         self.conversations = Conversations(self)
         self.courses = Courses(self)
         self.custom_fields = CustomFields(self)
@@ -404,6 +427,7 @@ class HighLevel:
         self.forms = Forms(self)
         self.funnels = Funnels(self)
         self.invoices = Invoices(self)
+        self.knowledge_base = KnowledgeBase(self)
         self.links = Links(self)
         self.locations = Locations(self)
         self.marketplace = Marketplace(self)
@@ -415,9 +439,9 @@ class HighLevel:
         self.phone_system = PhoneSystem(self)
         self.products = Products(self)
         self.proposals = Proposals(self)
-        self.saas_api = SaasApi(self)
+        self.saas = Saas(self)
         self.snapshots = Snapshots(self)
-        self.social_media_posting = SocialMediaPosting(self)
+        self.social_planner = SocialPlanner(self)
         self.store = Store(self)
         self.surveys = Surveys(self)
         self.users = Users(self)
@@ -550,10 +574,6 @@ class HighLevel:
     def get_client_secret(self) -> Optional[str]:
         """Get current client secret"""
         return self.config.get("client_secret")
-    
-    def set_api_version(self, version: str) -> None:
-        """Set API version"""
-        self.update_config({"api_version": version})
     
     def get_config(self) -> Dict[str, Any]:
         """Get current configuration"""

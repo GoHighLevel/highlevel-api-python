@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Links Models
@@ -25,7 +28,7 @@ class LinksDto(BaseModel):
 
 class GetLinkSuccessfulResponseDto(BaseModel):
     """GetLinkSuccessfulResponseDto model"""
-    link: Optional[LinkSchema] = None
+    link: Optional[Any] = None
 
 class LinkUpdateDto(BaseModel):
     """LinkUpdateDto model"""
@@ -35,4 +38,5 @@ class LinkUpdateDto(BaseModel):
 class DeleteLinksSuccessfulResponseDto(BaseModel):
     """DeleteLinksSuccessfulResponseDto model"""
     succeded: Optional[bool] = None
+    succeeded: Optional[bool] = None
 

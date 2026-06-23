@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from typing import Any, Optional
 
 

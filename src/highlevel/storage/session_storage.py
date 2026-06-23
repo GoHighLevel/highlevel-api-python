@@ -147,3 +147,24 @@ class SessionStorage(ABC):
             return int(time.time() * 1000) + (24 * 60 * 60 * 1000)
         return int(time.time() * 1000) + (expires_in * 1000)
 
+    """ GHL OAuth responses are camelCase (v3 onwards) (accessToken, refreshToken, expiresIn) while
+    the SDK reads snake_case (access_token, refresh_token, expires_in). Map any
+    camelCase token fields onto their snake_case keys so either casing works. """
+    _TOKEN_KEY_ALIASES = {
+        "access_token": "accessToken",
+        "refresh_token": "refreshToken",
+        "expires_in": "expiresIn",
+        "token_type": "tokenType",
+        "user_id": "userId",
+    }
+
+    def normalize_session_data(self, session_data: ISessionData) -> ISessionData:
+        """Ensure snake_case token fields exist alongside any camelCase originals."""
+        if not isinstance(session_data, dict):
+            return session_data
+        normalized = dict(session_data)
+        for snake_key, camel_key in self._TOKEN_KEY_ALIASES.items():
+            if normalized.get(snake_key) is None and normalized.get(camel_key) is not None:
+                normalized[snake_key] = normalized[camel_key]
+        return normalized
+

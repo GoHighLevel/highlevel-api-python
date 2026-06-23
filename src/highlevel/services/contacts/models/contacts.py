@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # Contacts Models
@@ -7,75 +10,6 @@ from pydantic import BaseModel
 
 class SearchBodyV2DTO(BaseModel):
     """SearchBodyV2DTO model"""
-
-class CustomFieldSchema(BaseModel):
-    """CustomFieldSchema model"""
-    id: Optional[str] = None
-    value: Optional[str] = None
-
-class DndSettingSchema(BaseModel):
-    """DndSettingSchema model"""
-    status: str
-    message: Optional[str] = None
-    code: Optional[str] = None
-
-class DndSettingsSchema(BaseModel):
-    """DndSettingsSchema model"""
-    Call: Optional[DndSettingSchema] = None
-    Email: Optional[DndSettingSchema] = None
-    SMS: Optional[DndSettingSchema] = None
-    WhatsApp: Optional[DndSettingSchema] = None
-    GMB: Optional[DndSettingSchema] = None
-    FB: Optional[DndSettingSchema] = None
-
-class ContactOpportunity(BaseModel):
-    """ContactOpportunity model"""
-    id: str
-    pipeline_id: str
-    pipeline_stage_id: str
-    monetary_value: float
-    status: str
-
-class Contact(BaseModel):
-    """Contact model"""
-    id: Optional[str] = None
-    phoneLabel: Optional[str] = None
-    country: Optional[str] = None
-    address: Optional[str] = None
-    source: Optional[str] = None
-    type: Optional[str] = None
-    locationId: Optional[str] = None
-    dnd: Optional[bool] = None
-    state: Optional[str] = None
-    businessName: Optional[str] = None
-    customFields: Optional[List[CustomFieldSchema]] = None
-    tags: Optional[List[str]] = None
-    dateAdded: Optional[str] = None
-    additionalEmails: Optional[List[str]] = None
-    phone: Optional[str] = None
-    companyName: Optional[str] = None
-    additionalPhones: Optional[List[str]] = None
-    dateUpdated: Optional[str] = None
-    city: Optional[str] = None
-    dateOfBirth: Optional[str] = None
-    firstName: Optional[str] = None
-    lastName: Optional[str] = None
-    firstNameLowerCase: Optional[str] = None
-    lastNameLowerCase: Optional[str] = None
-    email: Optional[str] = None
-    assignedTo: Optional[str] = None
-    followers: Optional[List[str]] = None
-    validEmail: Optional[bool] = None
-    dndSettings: Optional[DndSettingsSchema] = None
-    opportunities: Optional[List[ContactOpportunity]] = None
-    postalCode: Optional[str] = None
-    businessId: Optional[str] = None
-    searchAfter: Optional[List[str]] = None
-
-class SearchContactSuccessResponseDto(BaseModel):
-    """SearchContactSuccessResponseDto model"""
-    contacts: List[Contact]
-    total: float
 
 class TaskSchema(BaseModel):
     """TaskSchema model"""
@@ -93,7 +27,7 @@ class TasksListSuccessfulResponseDto(BaseModel):
 
 class TaskByIsSuccessfulResponseDto(BaseModel):
     """TaskByIsSuccessfulResponseDto model"""
-    task: Optional[TaskSchema] = None
+    task: Optional[Any] = None
 
 class CreateTaskParams(BaseModel):
     """CreateTaskParams model"""
@@ -117,6 +51,7 @@ class UpdateTaskStatusParams(BaseModel):
 
 class DeleteTaskSuccessfulResponseDto(BaseModel):
     """DeleteTaskSuccessfulResponseDto model"""
+    succeeded: Optional[bool] = None
     succeded: Optional[bool] = None
 
 class GetEventSchema(BaseModel):
@@ -162,6 +97,9 @@ class GetNoteSchema(BaseModel):
     userId: Optional[str] = None
     dateAdded: Optional[str] = None
     contactId: Optional[str] = None
+    title: Optional[str] = None
+    color: Optional[str] = None
+    pinned: Optional[bool] = None
 
 class GetNotesListSuccessfulResponseDto(BaseModel):
     """GetNotesListSuccessfulResponseDto model"""
@@ -171,13 +109,25 @@ class NotesDTO(BaseModel):
     """NotesDTO model"""
     userId: Optional[str] = None
     body: str
+    title: Optional[str] = None
+    color: Optional[str] = None
+    pinned: Optional[bool] = None
 
 class GetCreateUpdateNoteSuccessfulResponseDto(BaseModel):
     """GetCreateUpdateNoteSuccessfulResponseDto model"""
-    note: Optional[GetNoteSchema] = None
+    note: Optional[Any] = None
+
+class UpdateNoteDTO(BaseModel):
+    """UpdateNoteDTO model"""
+    userId: Optional[str] = None
+    body: Optional[str] = None
+    title: Optional[str] = None
+    color: Optional[str] = None
+    pinned: Optional[bool] = None
 
 class DeleteNoteSuccessfulResponseDto(BaseModel):
     """DeleteNoteSuccessfulResponseDto model"""
+    succeeded: Optional[bool] = None
     succeded: Optional[bool] = None
 
 class UpdateTagsDTO(BaseModel):
@@ -189,6 +139,7 @@ class UpdateTagsDTO(BaseModel):
 
 class UpdateTagsResponseDTO(BaseModel):
     """UpdateTagsResponseDTO model"""
+    succeeded: bool
     succeded: bool
     errorCount: float
     responses: List[str]
@@ -203,6 +154,100 @@ class ContactsBulkUpateResponse(BaseModel):
     """ContactsBulkUpateResponse model"""
     success: bool
     ids: List[str]
+
+class DeleteContactsSuccessfulResponseDto(BaseModel):
+    """DeleteContactsSuccessfulResponseDto model"""
+    succeeded: Optional[bool] = None
+    succeded: Optional[bool] = None
+
+class customFieldsInputArraySchema(BaseModel):
+    """customFieldsInputArraySchema model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[List[str]] = None
+    field_value: Optional[List[str]] = None
+
+class customFieldsInputObjectSchema(BaseModel):
+    """customFieldsInputObjectSchema model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[Dict[str, Any]] = None
+    field_value: Optional[Dict[str, Any]] = None
+
+class customFieldsInputStringSchema(BaseModel):
+    """customFieldsInputStringSchema model"""
+    id: Optional[str] = None
+    key: Optional[str] = None
+    fieldValue: Optional[str] = None
+    field_value: Optional[str] = None
+
+class TextField(BaseModel):
+    """TextField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[str] = None
+    field_value: Optional[str] = None
+
+class LargeTextField(BaseModel):
+    """LargeTextField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[str] = None
+    field_value: Optional[str] = None
+
+class SingleSelectField(BaseModel):
+    """SingleSelectField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[str] = None
+    field_value: Optional[str] = None
+
+class RadioField(BaseModel):
+    """RadioField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[str] = None
+    field_value: Optional[str] = None
+
+class NumericField(BaseModel):
+    """NumericField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[Dict[str, Any]] = None
+    field_value: Optional[Dict[str, Any]] = None
+
+class MonetoryField(BaseModel):
+    """MonetoryField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[Dict[str, Any]] = None
+    field_value: Optional[Dict[str, Any]] = None
+
+class CheckboxField(BaseModel):
+    """CheckboxField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[List[str]] = None
+    field_value: Optional[List[str]] = None
+
+class MultiSelectField(BaseModel):
+    """MultiSelectField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[List[str]] = None
+    field_value: Optional[List[str]] = None
+
+class FileField(BaseModel):
+    """FileField model"""
+    id: str
+    key: Optional[str] = None
+    fieldValue: Optional[Dict[str, Any]] = None
+    field_value: Optional[Dict[str, Any]] = None
+
+class CustomFieldSchema(BaseModel):
+    """CustomFieldSchema model"""
+    id: Optional[str] = None
+    value: Optional[str] = None
 
 class AttributionSource(BaseModel):
     """AttributionSource model"""
@@ -225,8 +270,23 @@ class AttributionSource(BaseModel):
     medium: Optional[str] = None
     mediumId: Optional[str] = None
 
-class GetContectByIdSchema(BaseModel):
-    """GetContectByIdSchema model"""
+class DndSettingSchema(BaseModel):
+    """DndSettingSchema model"""
+    status: str
+    message: Optional[str] = None
+    code: Optional[str] = None
+
+class DndSettingsSchemaV3(BaseModel):
+    """DndSettingsSchemaV3 model"""
+    call: Optional[Any] = None
+    email: Optional[Any] = None
+    sms: Optional[Any] = None
+    whatsApp: Optional[Any] = None
+    gmb: Optional[Any] = None
+    fb: Optional[Any] = None
+
+class GetContactByIdSchemaV3(BaseModel):
+    """GetContactByIdSchemaV3 model"""
     id: Optional[str] = None
     name: Optional[str] = None
     locationId: Optional[str] = None
@@ -238,7 +298,6 @@ class GetContectByIdSchema(BaseModel):
     companyName: Optional[str] = None
     phone: Optional[str] = None
     dnd: Optional[bool] = None
-    dndSettings: Optional[DndSettingsSchema] = None
     type: Optional[str] = None
     source: Optional[str] = None
     assignedTo: Optional[str] = None
@@ -261,85 +320,14 @@ class GetContectByIdSchema(BaseModel):
     lastActivity: Optional[str] = None
     customFields: Optional[List[CustomFieldSchema]] = None
     businessId: Optional[str] = None
-    attributionSource: Optional[AttributionSource] = None
-    lastAttributionSource: Optional[AttributionSource] = None
+    attributionSource: Optional[Any] = None
+    lastAttributionSource: Optional[Any] = None
     visitorId: Optional[str] = None
+    dndSettings: Optional[Any] = None
 
-class ContactsByIdSuccessfulResponseDto(BaseModel):
-    """ContactsByIdSuccessfulResponseDto model"""
-    contact: Optional[GetContectByIdSchema] = None
-
-class customFieldsInputArraySchema(BaseModel):
-    """customFieldsInputArraySchema model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[List[str]] = None
-
-class customFieldsInputObjectSchema(BaseModel):
-    """customFieldsInputObjectSchema model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[Dict[str, Any]] = None
-
-class customFieldsInputStringSchema(BaseModel):
-    """customFieldsInputStringSchema model"""
-    id: Optional[str] = None
-    key: Optional[str] = None
-    field_value: Optional[str] = None
-
-class TextField(BaseModel):
-    """TextField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[str] = None
-
-class LargeTextField(BaseModel):
-    """LargeTextField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[str] = None
-
-class SingleSelectField(BaseModel):
-    """SingleSelectField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[str] = None
-
-class RadioField(BaseModel):
-    """RadioField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[str] = None
-
-class NumericField(BaseModel):
-    """NumericField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[Dict[str, Any]] = None
-
-class MonetoryField(BaseModel):
-    """MonetoryField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[Dict[str, Any]] = None
-
-class CheckboxField(BaseModel):
-    """CheckboxField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[List[str]] = None
-
-class MultiSelectField(BaseModel):
-    """MultiSelectField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[List[str]] = None
-
-class FileField(BaseModel):
-    """FileField model"""
-    id: str
-    key: Optional[str] = None
-    field_value: Optional[Dict[str, Any]] = None
+class ContactsByIdSuccessfulResponseDtoV3(BaseModel):
+    """ContactsByIdSuccessfulResponseDtoV3 model"""
+    contact: Optional[Any] = None
 
 class InboundDndSettingSchema(BaseModel):
     """InboundDndSettingSchema model"""
@@ -348,10 +336,10 @@ class InboundDndSettingSchema(BaseModel):
 
 class InboundDndSettingsSchema(BaseModel):
     """InboundDndSettingsSchema model"""
-    all: Optional[InboundDndSettingSchema] = None
+    all: Optional[Any] = None
 
-class CreateContactDto(BaseModel):
-    """CreateContactDto model"""
+class CreateContactDtoV3(BaseModel):
+    """CreateContactDtoV3 model"""
     firstName: Optional[str] = None
     lastName: Optional[str] = None
     name: Optional[str] = None
@@ -366,60 +354,22 @@ class CreateContactDto(BaseModel):
     website: Optional[str] = None
     timezone: Optional[str] = None
     dnd: Optional[bool] = None
-    dndSettings: Optional[DndSettingsSchema] = None
-    inboundDndSettings: Optional[InboundDndSettingsSchema] = None
+    inboundDndSettings: Optional[Any] = None
     tags: Optional[List[str]] = None
     customFields: Optional[List[Any]] = None
     source: Optional[str] = None
+    dateOfBirth: Optional[Dict[str, Any]] = None
     country: Optional[str] = None
     companyName: Optional[str] = None
     assignedTo: Optional[str] = None
+    dndSettings: Optional[Any] = None
 
-class CreateContactSchema(BaseModel):
-    """CreateContactSchema model"""
-    id: Optional[str] = None
-    dateAdded: Optional[str] = None
-    dateUpdated: Optional[str] = None
-    deleted: Optional[bool] = None
-    tags: Optional[List[str]] = None
-    type: Optional[str] = None
-    customFields: Optional[List[CustomFieldSchema]] = None
-    locationId: Optional[str] = None
-    firstName: Optional[str] = None
-    firstNameLowerCase: Optional[str] = None
-    fullNameLowerCase: Optional[str] = None
-    lastName: Optional[str] = None
-    lastNameLowerCase: Optional[str] = None
-    email: Optional[str] = None
-    emailLowerCase: Optional[str] = None
-    bounceEmail: Optional[bool] = None
-    unsubscribeEmail: Optional[bool] = None
-    dnd: Optional[bool] = None
-    dndSettings: Optional[DndSettingsSchema] = None
-    phone: Optional[str] = None
-    address1: Optional[str] = None
-    city: Optional[str] = None
-    state: Optional[str] = None
-    country: Optional[str] = None
-    postalCode: Optional[str] = None
-    website: Optional[str] = None
-    source: Optional[str] = None
-    companyName: Optional[str] = None
-    dateOfBirth: Optional[str] = None
-    birthMonth: Optional[float] = None
-    birthDay: Optional[float] = None
-    lastSessionActivityAt: Optional[str] = None
-    offers: Optional[List[str]] = None
-    products: Optional[List[str]] = None
-    businessId: Optional[str] = None
-    assignedTo: Optional[str] = None
+class CreateContactsSuccessfulResponseDtoV3(BaseModel):
+    """CreateContactsSuccessfulResponseDtoV3 model"""
+    contact: Optional[Any] = None
 
-class CreateContactsSuccessfulResponseDto(BaseModel):
-    """CreateContactsSuccessfulResponseDto model"""
-    contact: Optional[CreateContactSchema] = None
-
-class UpdateContactDto(BaseModel):
-    """UpdateContactDto model"""
+class UpdateContactDtoV3(BaseModel):
+    """UpdateContactDtoV3 model"""
     firstName: Optional[str] = None
     lastName: Optional[str] = None
     name: Optional[str] = None
@@ -432,21 +382,22 @@ class UpdateContactDto(BaseModel):
     website: Optional[str] = None
     timezone: Optional[str] = None
     dnd: Optional[bool] = None
-    dndSettings: Optional[DndSettingsSchema] = None
-    inboundDndSettings: Optional[InboundDndSettingsSchema] = None
+    inboundDndSettings: Optional[Any] = None
     tags: Optional[List[str]] = None
     customFields: Optional[List[Any]] = None
     source: Optional[str] = None
+    dateOfBirth: Optional[Dict[str, Any]] = None
     country: Optional[str] = None
     assignedTo: Optional[str] = None
+    dndSettings: Optional[Any] = None
 
-class UpdateContactsSuccessfulResponseDto(BaseModel):
-    """UpdateContactsSuccessfulResponseDto model"""
-    succeded: Optional[bool] = None
-    contact: Optional[GetContectByIdSchema] = None
+class UpdateContactsSuccessfulResponseDtoV3(BaseModel):
+    """UpdateContactsSuccessfulResponseDtoV3 model"""
+    succeeded: Optional[bool] = None
+    contact: Optional[Any] = None
 
-class UpsertContactDto(BaseModel):
-    """UpsertContactDto model"""
+class UpsertContactDtoV3(BaseModel):
+    """UpsertContactDtoV3 model"""
     firstName: Optional[str] = None
     lastName: Optional[str] = None
     name: Optional[str] = None
@@ -461,24 +412,22 @@ class UpsertContactDto(BaseModel):
     website: Optional[str] = None
     timezone: Optional[str] = None
     dnd: Optional[bool] = None
-    dndSettings: Optional[DndSettingsSchema] = None
-    inboundDndSettings: Optional[InboundDndSettingsSchema] = None
+    inboundDndSettings: Optional[Any] = None
     tags: Optional[List[str]] = None
     customFields: Optional[List[Any]] = None
     source: Optional[str] = None
+    dateOfBirth: Optional[Dict[str, Any]] = None
     country: Optional[str] = None
     companyName: Optional[str] = None
     assignedTo: Optional[str] = None
+    createNewIfDuplicateAllowed: Optional[bool] = None
+    dndSettings: Optional[Any] = None
 
-class UpsertContactsSuccessfulResponseDto(BaseModel):
-    """UpsertContactsSuccessfulResponseDto model"""
+class UpsertContactsSuccessfulResponseDtoV3(BaseModel):
+    """UpsertContactsSuccessfulResponseDtoV3 model"""
     new: Optional[bool] = None
-    contact: Optional[GetContectByIdSchema] = None
+    contact: Optional[Any] = None
     traceId: Optional[str] = None
-
-class DeleteContactsSuccessfulResponseDto(BaseModel):
-    """DeleteContactsSuccessfulResponseDto model"""
-    succeded: Optional[bool] = None
 
 class ContactsSearchSchema(BaseModel):
     """ContactsSearchSchema model"""
@@ -529,6 +478,7 @@ class AddContactToCampaignDto(BaseModel):
 
 class CreateDeleteCantactsCampaignsSuccessfulResponseDto(BaseModel):
     """CreateDeleteCantactsCampaignsSuccessfulResponseDto model"""
+    succeeded: Optional[bool] = None
     succeded: Optional[bool] = None
 
 class CreateWorkflowDto(BaseModel):
@@ -537,5 +487,6 @@ class CreateWorkflowDto(BaseModel):
 
 class ContactsWorkflowSuccessfulResponseDto(BaseModel):
     """ContactsWorkflowSuccessfulResponseDto model"""
+    succeeded: Optional[bool] = None
     succeded: Optional[bool] = None
 

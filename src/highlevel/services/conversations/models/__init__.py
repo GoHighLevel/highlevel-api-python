@@ -1,8 +1,5 @@
 """Conversations Models"""
 
-from .conversations import BadRequestDTO
-from .conversations import UnauthorizedDTO
-from .conversations import ForbiddenDTO
 from .conversations import StartAfterNumberSchema
 from .conversations import StartAfterArrayNumberSchema
 from .conversations import ConversationSchema
@@ -19,8 +16,11 @@ from .conversations import GetEmailMessageResponseDto
 from .conversations import CancelScheduledResponseDto
 from .conversations import MessageMeta
 from .conversations import GetMessageResponseDto
+from .conversations import ExportMessagesResponseDto
 from .conversations import GetMessagesByConversationResponseDto
+from .conversations import ForwardConfigDto
 from .conversations import SendMessageBodyDto
+from .conversations import ForwardResponseDto
 from .conversations import SendMessageResponseDto
 from .conversations import CallDataDTO
 from .conversations import ProcessMessageBodyDto
@@ -31,7 +31,17 @@ from .conversations import UploadFilesResponseDto
 from .conversations import UploadFilesErrorResponseDto
 from .conversations import ErrorDto
 from .conversations import UpdateMessageStatusDto
+from .conversations import AddMessageAttachmentsDto
 from .conversations import GetMessageTranscriptionResponseDto
 from .conversations import UserTypingBody
 from .conversations import CreateLiveChatMessageFeedbackResponse
-__all__ = ["BadRequestDTO", "UnauthorizedDTO", "ForbiddenDTO", "StartAfterNumberSchema", "StartAfterArrayNumberSchema", "ConversationSchema", "SendConversationResponseDto", "CreateConversationDto", "ConversationCreateResponseDto", "CreateConversationSuccessResponse", "GetConversationByIdResponse", "UpdateConversationDto", "ConversationDto", "GetConversationSuccessfulResponse", "DeleteConversationSuccessfulResponse", "GetEmailMessageResponseDto", "CancelScheduledResponseDto", "MessageMeta", "GetMessageResponseDto", "GetMessagesByConversationResponseDto", "SendMessageBodyDto", "SendMessageResponseDto", "CallDataDTO", "ProcessMessageBodyDto", "ProcessMessageResponseDto", "ProcessOutboundMessageBodyDto", "UploadFilesDto", "UploadFilesResponseDto", "UploadFilesErrorResponseDto", "ErrorDto", "UpdateMessageStatusDto", "GetMessageTranscriptionResponseDto", "UserTypingBody", "CreateLiveChatMessageFeedbackResponse"]
+from .conversations import EmailEventsDto
+from .conversations import UpdateRecipientMessageStatusDto
+from .conversations import UpdateEmailMessageStatusDto
+from .conversations import UpdateEmailMessageStatusResponseDto
+from .conversations import SendReviewReplyDto
+from .conversations import InitiateFileUploadDto
+from .conversations import InitiateFileUploadResponseDto
+from .conversations import CompleteFileUploadDto
+from .conversations import CompleteFileUploadResponseDto
+__all__ = ["StartAfterNumberSchema", "StartAfterArrayNumberSchema", "ConversationSchema", "SendConversationResponseDto", "CreateConversationDto", "ConversationCreateResponseDto", "CreateConversationSuccessResponse", "GetConversationByIdResponse", "UpdateConversationDto", "ConversationDto", "GetConversationSuccessfulResponse", "DeleteConversationSuccessfulResponse", "GetEmailMessageResponseDto", "CancelScheduledResponseDto", "MessageMeta", "GetMessageResponseDto", "ExportMessagesResponseDto", "GetMessagesByConversationResponseDto", "ForwardConfigDto", "SendMessageBodyDto", "ForwardResponseDto", "SendMessageResponseDto", "CallDataDTO", "ProcessMessageBodyDto", "ProcessMessageResponseDto", "ProcessOutboundMessageBodyDto", "UploadFilesDto", "UploadFilesResponseDto", "UploadFilesErrorResponseDto", "ErrorDto", "UpdateMessageStatusDto", "AddMessageAttachmentsDto", "GetMessageTranscriptionResponseDto", "UserTypingBody", "CreateLiveChatMessageFeedbackResponse", "EmailEventsDto", "UpdateRecipientMessageStatusDto", "UpdateEmailMessageStatusDto", "UpdateEmailMessageStatusResponseDto", "SendReviewReplyDto", "InitiateFileUploadDto", "InitiateFileUploadResponseDto", "CompleteFileUploadDto", "CompleteFileUploadResponseDto"]

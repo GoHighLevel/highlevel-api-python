@@ -138,6 +138,7 @@ class MongoDBSessionStorage(SessionStorage):
             session_data: Session data to store
         """
         try:
+            session_data = self.normalize_session_data(session_data)
             collection = await self.get_collection(self.collection_name)
             application_id = self._get_application_id()
             update_data = {

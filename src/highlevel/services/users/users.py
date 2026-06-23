@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -9,6 +13,10 @@ class Users:
     """
     Users Service
     Documentation for users API
+
+## API Version v3
+
+All APIs available via &#x60;/v3&#x60; route prefix with AIP-compliant responses.
     """
 
     def __init__(self, ghl_instance):
@@ -51,7 +59,10 @@ class Users:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -108,7 +119,7 @@ class Users:
         """
         param_defs = []
         extracted = extract_params(None, param_defs)
-        requirements = ["Agency-Access","Location-Access"]
+        requirements = ["Agency-Access"]
         
         config: RequestConfig = {
             "method": "POST",
@@ -117,20 +128,22 @@ class Users:
             "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
             "data": request_body,
             "__security_requirements": requirements,
-            "__preferred_token_type": options.get("preferred_token_type") if options else None,
+            
             "__path_params": extracted["path"],
         }
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
             config["headers"],
             {**config["params"], **config["__path_params"]},
-            request_body,
-            config.get("__preferred_token_type")
+            request_body
         )
         
         if auth_token:
@@ -148,7 +161,7 @@ class Users:
             request = self.client.build_request(**request_kwargs)
             setattr(request, "__security_requirements", requirements)
             setattr(request, "__path_params", config["__path_params"])
-            setattr(request, "__preferred_token_type", config.get("__preferred_token_type"))
+            
             request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
             setattr(request, "__request_kwargs", request_kwargs_copy)
 
@@ -179,8 +192,8 @@ class Users:
         Get User
         Get User
         """
-        param_defs = [{"name": "userId", "in": "path"}]
-        extracted = extract_params({ "user_id": user_id }, param_defs)
+        param_defs = [{"name": "userId", "in": "path"}, ]
+        extracted = extract_params({ "user_id": user_id,  }, param_defs)
         requirements = ["Agency-Access","Location-Access"]
         
         config: RequestConfig = {
@@ -196,7 +209,10 @@ class Users:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -268,7 +284,10 @@ class Users:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -318,7 +337,7 @@ class Users:
     async def delete_user(
         self,
         options: Optional[Dict[str, Any]] = None
-    ) -> DeleteUserSuccessfulResponseDto:
+    ) -> DeleteUserSuccessfulResponseV3Dto:
         """
         Delete User
         Delete User
@@ -340,7 +359,10 @@ class Users:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -365,77 +387,6 @@ class Users:
             setattr(request, "__security_requirements", requirements)
             setattr(request, "__path_params", config["__path_params"])
             setattr(request, "__preferred_token_type", config.get("__preferred_token_type"))
-            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
-            setattr(request, "__request_kwargs", request_kwargs_copy)
-
-            send_kwargs = {}
-            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
-                if option_key in config:
-                    send_kwargs[option_key] = config[option_key]
-            setattr(request, "__send_kwargs", dict(send_kwargs))
-
-            response = await self.client.send(request, **send_kwargs)
-            return response.json()
-
-        except httpx.RequestError as e:
-            # Handle network/request errors
-            raise GHLError(
-                f"Network error: {str(e)}",
-                None,
-                None,
-                config
-            ) from e
-
-    async def get_user_by_location(
-        self,
-        location_id: str,
-        options: Optional[Dict[str, Any]] = None
-    ) -> LocationSuccessfulResponseDto:
-        """
-        Get User by Location
-        Get User by Location
-        """
-        param_defs = [{"name": "locationId", "in": "query"}]
-        extracted = extract_params({ "location_id": location_id }, param_defs)
-        requirements = ["Location-Access"]
-        
-        config: RequestConfig = {
-            "method": "GET",
-            "url": build_url("/users/", extracted["path"]),
-            "params": extracted["query"],
-            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
-            
-            "__security_requirements": requirements,
-            
-            "__path_params": extracted["path"],
-        }
-        
-        if options:
-            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
-        auth_token = await get_auth_token(
-            self.ghl_instance,
-            requirements,
-            config["headers"],
-            {**config["params"], **config["__path_params"]},
-            {}
-        )
-        
-        if auth_token:
-            config["headers"]["Authorization"] = auth_token
-        
-        try:
-            request_kwargs = {
-                "method": config["method"],
-                "url": config["url"],
-                "params": config["params"],
-                "headers": config["headers"],
-            }
-
-            request = self.client.build_request(**request_kwargs)
-            setattr(request, "__security_requirements", requirements)
-            setattr(request, "__path_params", config["__path_params"])
-            
             request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
             setattr(request, "__request_kwargs", request_kwargs_copy)
 
@@ -483,7 +434,10 @@ class Users:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,

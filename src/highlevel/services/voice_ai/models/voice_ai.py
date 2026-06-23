@@ -1,3 +1,6 @@
+# @generated
+# File generated from our OpenAPI spec
+
 from __future__ import annotations
 
 # VoiceAi Models
@@ -38,7 +41,7 @@ class TranslationDTO(BaseModel):
 
 class AgentCreationRequestDTO(BaseModel):
     """AgentCreationRequestDTO model"""
-    locationId: Optional[str] = None
+    locationId: str
     agentName: Optional[str] = None
     businessName: Optional[str] = None
     welcomeMessage: Optional[str] = None
@@ -181,7 +184,7 @@ class CallTransferActionParameters(BaseModel):
     triggerPrompt: str
     transferToType: str
     transferToValue: str
-    triggerMessage: Optional[str] = None
+    triggerMessage: str
     hearWhisperMessage: Optional[bool] = None
 
 class DataExtractionActionParameters(BaseModel):
@@ -241,23 +244,20 @@ class CustomActionApiDetailsDTO(BaseModel):
 class CustomActionParameters(BaseModel):
     """CustomActionParameters model"""
     triggerPrompt: str
-    triggerMessage: Optional[str] = None
+    triggerMessage: str
     apiDetails: Any
     selectedPaths: Optional[List[str]] = None
 
 class KnowledgeBaseParameters(BaseModel):
     """KnowledgeBaseParameters model"""
-    triggerPrompt: Optional[str] = None
-    triggerMessage: str
+    triggerPrompt: str
     knowledgeBaseId: str
-    parameters: Optional[List[CustomActionParameterDTO]] = None
 
 class CallActionSchema(BaseModel):
     """CallActionSchema model"""
     actionId: Optional[str] = None
     actionType: str
     actionName: str
-    description: Optional[str] = None
     actionParameters: Optional[Any] = None
     executedAt: Optional[str] = None
     triggerReceivedAt: Optional[str] = None

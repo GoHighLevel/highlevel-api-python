@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -5,9 +9,9 @@ from ...utils.request_utils import build_url, extract_params, get_auth_token, Re
 from ...error import GHLError
 
 
-class SaasApi:
+class Saas:
     """
-    SaasApi Service
+    Saas Service
     API Service for SaaS
     """
 
@@ -46,7 +50,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -91,7 +98,7 @@ class SaasApi:
                 config
             ) from e
 
-    async def update_saas_subscription_deprecated(
+    async def generate_payment_link_deprecated(
         self,
         location_id: str,
         request_body: UpdateSubscriptionDto,
@@ -121,7 +128,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -197,7 +207,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -252,26 +265,13 @@ class SaasApi:
         """
         Enable SaaS for Sub-Account (Formerly Location)
         &lt;div&gt;
-                  &lt;p&gt;Enable SaaS for Sub-Account (Formerly Location) based on the data provided&lt;/p&gt;
+                  &lt;p&gt;Enable SaaS for Sub-Account (Formerly Location) based on the data provided&lt;/p&gt; 
                   &lt;div&gt;
-                    &lt;span style&#x3D; &quot;display: inline-block;
-                                width: 25px; height: 25px;
-                                background-color: yellow;
-                                color: black;
-                                font-weight: bold;
-                                font-size: 24px;
-                                text-align: center;
-                                line-height: 22px;
-                                border: 2px solid black;
-                                border-radius: 10%;
-                                margin-right: 10px;&quot;&gt;
-                                !
-                      &lt;/span&gt;
-                      &lt;span&gt;
-                        &lt;strong&gt;
-                          This feature is only available on Agency Pro ($497) plan.
-                        &lt;/strong&gt;
-                      &lt;/span&gt;
+&lt;span&gt;
+                     :::info
+ This feature is only available on Agency Pro ($497) plan.
+ :::  
+ &lt;/span&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
     
@@ -296,7 +296,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -372,7 +375,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -448,7 +454,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -523,7 +532,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -598,7 +610,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -673,7 +688,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -749,7 +767,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -824,7 +845,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -897,7 +921,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -969,7 +996,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1042,7 +1072,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1097,26 +1130,13 @@ class SaasApi:
         """
         Enable SaaS for Sub-Account (Formerly Location)
         &lt;div&gt;
-                  &lt;p&gt;Enable SaaS for Sub-Account (Formerly Location) based on the data provided&lt;/p&gt;
+                  &lt;p&gt;Enable SaaS for Sub-Account (Formerly Location) based on the data provided&lt;/p&gt; 
                   &lt;div&gt;
-                    &lt;span style&#x3D; &quot;display: inline-block;
-                                width: 25px; height: 25px;
-                                background-color: yellow;
-                                color: black;
-                                font-weight: bold;
-                                font-size: 24px;
-                                text-align: center;
-                                line-height: 22px;
-                                border: 2px solid black;
-                                border-radius: 10%;
-                                margin-right: 10px;&quot;&gt;
-                                !
-                      &lt;/span&gt;
-                      &lt;span&gt;
-                        &lt;strong&gt;
-                          This feature is only available on Agency Pro ($497) plan.
-                        &lt;/strong&gt;
-                      &lt;/span&gt;
+&lt;span&gt;
+                     :::info
+ This feature is only available on Agency Pro ($497) plan.
+ :::  
+ &lt;/span&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
     
@@ -1138,7 +1158,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1211,7 +1234,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1284,7 +1310,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1356,7 +1385,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1428,7 +1460,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1500,7 +1535,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1573,7 +1611,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1645,7 +1686,10 @@ class SaasApi:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -1664,6 +1708,234 @@ class SaasApi:
                 "params": config["params"],
                 "headers": config["headers"],
             }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def allow_attach_rebilling(
+        self,
+        location_id: str,
+        request_body: AllowAttachRebillingDto,
+        options: Optional[Dict[str, Any]] = None
+    ) -> AllowAttachRebillingResponseDto:
+        """
+        Allow Attach Rebilling
+        Marks a SaaS sub-account as awaiting rebilling attach and optionally stores the rebilling configuration that should be applied when the rebilling config is created. Sets payment_pending on the sub-account. Only allowed when the sub-account is in setup_pending state.
+        """
+        param_defs = [{"name": "locationId", "in": "path"}]
+        extracted = extract_params({ "location_id": location_id }, param_defs)
+        requirements = ["Agency-Access"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/saas/allow-attach-rebilling/{locationId}", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def get_location_wallet_balance(
+        self,
+        company_id: str,
+        location_id: str,
+        options: Optional[Dict[str, Any]] = None
+    ) -> LocationWalletBalanceDto:
+        """
+        Get Location Wallet Balance
+        Fetch the wallet balance for a specific location. Returns a resource object with balance details.
+        """
+        param_defs = [{"name": "companyId", "in": "path"}, {"name": "locationId", "in": "path"}]
+        extracted = extract_params({ "company_id": company_id, "location_id": location_id }, param_defs)
+        requirements = ["Agency-Access"]
+        
+        config: RequestConfig = {
+            "method": "GET",
+            "url": build_url("/saas-api/public-api/companies/{companyId}/locations/{locationId}/wallet-balance", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            {}
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+
+            request = self.client.build_request(**request_kwargs)
+            setattr(request, "__security_requirements", requirements)
+            setattr(request, "__path_params", config["__path_params"])
+            
+            request_kwargs_copy = {k: (dict(v) if isinstance(v, dict) else v) for k, v in request_kwargs.items()}
+            setattr(request, "__request_kwargs", request_kwargs_copy)
+
+            send_kwargs = {}
+            for option_key in ["timeout", "follow_redirects", "stream", "auth"]:
+                if option_key in config:
+                    send_kwargs[option_key] = config[option_key]
+            setattr(request, "__send_kwargs", dict(send_kwargs))
+
+            response = await self.client.send(request, **send_kwargs)
+            return response.json()
+
+        except httpx.RequestError as e:
+            # Handle network/request errors
+            raise GHLError(
+                f"Network error: {str(e)}",
+                None,
+                None,
+                config
+            ) from e
+
+    async def update_location_wallet_balance(
+        self,
+        company_id: str,
+        location_id: str,
+        request_body: ComplimentaryCreditDTO,
+        options: Optional[Dict[str, Any]] = None
+    ) -> LocationWalletBalanceDto:
+        """
+        Update Location Wallet Balance
+        Update the wallet balance or complimentary credit settings for a specific location. Supports partial updates via updateMask field (AIP-134 compliant).
+        """
+        param_defs = [{"name": "companyId", "in": "path"}, {"name": "locationId", "in": "path"}]
+        extracted = extract_params({ "company_id": company_id, "location_id": location_id }, param_defs)
+        requirements = ["Agency-Access"]
+        
+        config: RequestConfig = {
+            "method": "POST",
+            "url": build_url("/saas-api/public-api/companies/{companyId}/locations/{locationId}/wallet-balance/complimentary-credits", extracted["path"]),
+            "params": extracted["query"],
+            "headers": {**extracted["header"], **(options.get("headers", {}) if options else {})},
+            "data": request_body,
+            "__security_requirements": requirements,
+            
+            "__path_params": extracted["path"],
+        }
+        
+        if options:
+            config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
+        auth_token = await get_auth_token(
+            self.ghl_instance,
+            requirements,
+            config["headers"],
+            {**config["params"], **config["__path_params"]},
+            request_body
+        )
+        
+        if auth_token:
+            config["headers"]["Authorization"] = auth_token
+        
+        try:
+            request_kwargs = {
+                "method": config["method"],
+                "url": config["url"],
+                "params": config["params"],
+                "headers": config["headers"],
+            }
+            request_kwargs["json"] = config.get("data")
 
             request = self.client.build_request(**request_kwargs)
             setattr(request, "__security_requirements", requirements)

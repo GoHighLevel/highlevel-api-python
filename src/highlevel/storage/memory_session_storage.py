@@ -94,8 +94,9 @@ class MemorySessionStorage(SessionStorage):
             session_data: Session data to store
         """
         try:
+            session_data = self.normalize_session_data(session_data)
             unique_key = self._generate_unique_key(resource_id)
-            
+
             session_document = {
                 **session_data,
                 "expire_at": self.calculate_expire_at(session_data.get("expires_in")),

@@ -1,3 +1,7 @@
+# @generated
+# File generated from our OpenAPI spec
+
+from __future__ import annotations
 from typing import Any, Dict, Optional, List
 import httpx
 from .models import *
@@ -31,7 +35,7 @@ class Medias:
     ) -> GetFilesResponseDTO:
         """
         Get List of Files/ Folders
-        Fetches list of files and folders from the media library
+        Fetches list of files and folders from the media storage
         """
         param_defs = [{"name": "offset", "in": "query"}, {"name": "limit", "in": "query"}, {"name": "sortBy", "in": "query"}, {"name": "sortOrder", "in": "query"}, {"name": "type", "in": "query"}, {"name": "query", "in": "query"}, {"name": "altType", "in": "query"}, {"name": "altId", "in": "query"}, {"name": "parentId", "in": "query"}, {"name": "fetchAll", "in": "query"}]
         extracted = extract_params({ "offset": offset, "limit": limit, "sort_by": sort_by, "sort_order": sort_order, "type": type, "query": query, "alt_type": alt_type, "alt_id": alt_id, "parent_id": parent_id, "fetch_all": fetch_all }, param_defs)
@@ -50,7 +54,10 @@ class Medias:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -101,8 +108,8 @@ class Medias:
         options: Optional[Dict[str, Any]] = None
     ) -> UploadFileResponseDTO:
         """
-        Upload File into Media Library
-        If hosted is set to true then fileUrl is required. Else file is required. If adding a file, maximum allowed is 25 MB
+        Upload File into Media Storage
+        If hosted is set to true then fileUrl is required. Else file is required. If adding a file, maximum allowed is 25 MB. For video files, the maximum allowed size is 500 MB.
         """
         param_defs = []
         extracted = extract_params(None, param_defs)
@@ -121,7 +128,10 @@ class Medias:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -176,7 +186,7 @@ class Medias:
     ) -> Any:
         """
         Delete File or Folder
-        Deletes specific file or folder from the media library
+        Deletes specific file or folder from the media storage
         """
         param_defs = [{"name": "id", "in": "path"}, {"name": "altType", "in": "query"}, {"name": "altId", "in": "query"}]
         extracted = extract_params({ "id": id, "alt_type": alt_type, "alt_id": alt_id }, param_defs)
@@ -195,7 +205,10 @@ class Medias:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -267,7 +280,10 @@ class Medias:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -320,7 +336,7 @@ class Medias:
     ) -> FolderDTO:
         """
         Create Folder
-        Creates a new folder in the media library
+        Creates a new folder in the media storage
         """
         param_defs = []
         extracted = extract_params(None, param_defs)
@@ -339,7 +355,10 @@ class Medias:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -411,7 +430,10 @@ class Medias:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
@@ -483,7 +505,10 @@ class Medias:
         
         if options:
             config.update({k: v for k, v in options.items() if k not in ["headers", "preferred_token_type"]})
-        
+
+        # Lock the Version header to the SDK's API version; user options cannot override it.
+        config["headers"]["Version"] = self.ghl_instance.API_VERSION
+
         auth_token = await get_auth_token(
             self.ghl_instance,
             requirements,
